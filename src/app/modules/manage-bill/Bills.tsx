@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Button, Card, Col, FormLabel, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {KTSVG} from "../../../_admin/helpers";
@@ -8,35 +8,35 @@ import Pagination from "../../../global/pagination";
 import ThreeDots from "../../../_admin/assets/media/svg/threeDots.svg";
 import {CustomSelectTable} from "../../custom/select/CustomSelectTable";
 import APICallService from "../../../api/apiCallService";
-import {PLANT, USER} from "../../../api/apiEndPoints";
-import {PLANTAPIJSON} from "../../../api/apiJSON/plant";
+import {Bill, PPA} from "../../../api/apiEndPoints";
+import {BILLAPIJSON} from "../../../api/apiJSON/bill";
 import {useDebounce} from "../../../utils/useDebounce";
-import {IListPlant} from "../../../types";
+import {IListBill} from "../../../types";
 import AddIcon from "../../../_admin/assets/media/svg/add.svg";
-import { USERAPIJSON } from "../../../api/apiJSON/user";
 import { CustomSelectWhite } from "../../custom/select/CustomSelectWhite";
+import { PPAAPIJSON } from "../../../api/apiJSON/ppa";
  
-const Plants = () => {
+const Bills = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    const [plants, setPlants] = useState<IListPlant[]>([]);
     const [totalRecords, setTotalRecords] = useState(0);
     const [page, setPage] = useState(1);
     const [showModel, setShowModel] = useState<boolean>(false);
-    const [plantId, setPlantId] = useState<string | null>(null);
-    const [userId, setUserId] = useState<string | undefined>(undefined);
+    const [bills, setBills] = useState<IListBill[]>([]);
+    const [billId, setBillId] = useState<string | null>(null);
+    const [ppaId, setppaId] = useState<string | undefined>(undefined);
     const [pageLimit, setPageLimit] = useState(PAGE_LIMIT);
     const [searchTerm, setSearchTerm] = useState('');
-    const [userOptions, setUserOptions] = useState<any[]>([]);
+    const [ppas, setPpas] = useState<any[]>([]);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            fetchUsersData(page, pageLimit, searchTerm)
+        const fetchPpas = async () => {
+            fetchPpaData(page, pageLimit, searchTerm)
         };
-        fetchUsers();
+        fetchPpas();
     }, []);
 
-    const fetchUsersData = async (pageNo: number, limit: number, searchTerm: string = '') => {
+    const fetchPpaData = async (pageNo: number, limit: number, searchTerm: string = '') => {
         setLoading(true);
         const params = {
             page: pageNo,
@@ -45,54 +45,60 @@ const Plants = () => {
             sortOrder: -1,
             needCount: true,
             searchTerm: searchTerm ? searchTerm : undefined,
-            
         }
-        const apiService = new APICallService(USER.LISTUSER, USERAPIJSON.listUser(params));
+        const apiService = new APICallService(PPA.LISTPPA, PPAAPIJSON.listPpa(params));
         const response = await apiService.callAPI();
         if (response && response.records) {
-            const options = response.records.map((user: any) => ({
-                value: user._id,
-                label: `${user.name}`
+            const options = response.records.map((ppa: any) => ({
+                value: ppa._id,
+                label: `${ppa.name}`
             }));
-            setUserOptions(options);
+            setPpas(options);
         }
     }
 
     useEffect(() => {
-        fetchPlants(page, pageLimit);
+        fetchBills(page, pageLimit);
     }, [] );
 
-    const fetchPlants = async  (
+    const fetchBills = async  (
         pageNo: number,
         limit: number,
         searchTerm: string = '',
-        userId: string | undefined = undefined,
+        // ppaId?: string ,
     ) => {
         setLoading(true);
-        let params = {
-            page: pageNo,
-            limit: limit,
-            sortKey: '_createdAt',
-            sortOrder: -1,
-            needCount: true,
-            searchTerm: searchTerm ? searchTerm : undefined,
-            // userId: userId ? userId : undefined,
-        }
+        try {
+            let params = {
+                page: pageNo,
+                limit: limit,
+                sortKey: '_createdAt',
+                sortOrder: -1,
+                needCount: true,
+                searchTerm: searchTerm ? searchTerm : undefined,
+                // ppaId: ppaId ? ppaId : undefined,
+            }
 
-        let apiService = new APICallService(
-            PLANT.LISTPLANT,
-            PLANTAPIJSON.listPlant(params)
-        );
-
-        let response = await apiService.callAPI();
-        if(response) {
-            setTotalRecords(response.total);
-            setPlants(response.records);
+            let apiService = new APICallService(
+                Bill.LISTBILL,
+                params
+            );
+    
+            let response = await apiService.callAPI();
+            console.log("response dsd", response);
+            if(response) {
+                setTotalRecords(response.total);
+                setBills(response.records);
+            }
+        } catch (error) {
+            console.error("Error fetching Bills: ", error);
+            setBills([]);
+            setTotalRecords(0);
         }
         setLoading(false);
     };
 
-    const debouncedSearch = useDebounce(fetchPlants, 400);
+    const debouncedSearch = useDebounce(fetchBills, 400);
 
     const handleSearch = async (value: string) => {
         // value = value.trimStart();
@@ -105,72 +111,67 @@ const Plants = () => {
         setPage(1);
         setLoading(true);
         setTotalRecords(0);
-        await fetchPlants(1, pageLimit, value);
+        await fetchBills(1, pageLimit, value);
     };  
 
-    const handleSelectChange = (eventKey: string | number | undefined | null) => {
-        const newUserId = eventKey ? eventKey.toString() : undefined;
-        setUserId(newUserId);
-        setPage(1);
-        fetchPlants(1, pageLimit, searchTerm, newUserId);
-    };
+    const handlePpaFilter = (eventKey: string | null) => {
+        const newId = eventKey || undefined;
+        setppaId(newId);
+        fetchBills(1, pageLimit, searchTerm)
+    }
+
     const handleCurrentPage = async (val: number) => {
         if (val === page || val.toString() === '...') return;
         setPage(val);
-        await fetchPlants(
+        await fetchBills(
             val,
             pageLimit,
             searchTerm,
-            userId,
         );
     }
 
     const handleNextPage = async (val: number) => {
         setPage(val + 1);
-        await fetchPlants(
+        await fetchBills(
             val + 1,
             pageLimit,
             searchTerm,
-            userId,
         );
     };
 
     const handlePreviousPage = async (val: number) => {
         setPage(val - 1);
-        await fetchPlants(
+        await fetchBills(
             val - 1,
             pageLimit,
             searchTerm,
-            userId,
         );
     };
 
     const handlePageLimit = async (event: any) => {
         setPage(1);
         setPageLimit(+event.target.value);
-        await fetchPlants(
+        await fetchBills(
             1,
             +event.target.value,
             searchTerm,
-            userId,
         );
     }
 
-    const handlePlantOption = async (
+    const handleBillOption = async (
         event: any,
         index: number,
-        plant: any
+        bill: any
     ) => {
         switch (event.value) {
             case 1:
-                navigate('/plant/all-plants/view-details', { state: plant });
+                navigate('/bill/all-bills/view-details', { state: bill });
                 break;
 
             case 3:
                 setShowModel(true);
-                setPlantId(plant._id);
+                setBillId(bill._id);
                 break;
-
             default:
                 break;
         }
@@ -185,7 +186,7 @@ const Plants = () => {
                 >
                 <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
                     <div className="d-flex align-items-center">
-                        <h1 className="fs-22 mt-2 fw-bolder">Plants</h1>
+                        <h1 className="fs-22 mt-2 fw-bolder">Bills</h1>
                         <div className="badge badge-primary ms-3 rounded-pill">
                             <span className="p-1 fs-14 text-white">{totalRecords}</span>
                         </div>
@@ -193,7 +194,7 @@ const Plants = () => {
                     <Button
                         variant="primary"
                         className="fs-16 fw-bold btn-lg"
-                        onClick={() => navigate('/plant/all-plants/add-plant')}
+                        onClick={() => navigate('/bill/all-bills/add-bill')}
                     >
                         <img
                             src={AddIcon}
@@ -202,7 +203,7 @@ const Plants = () => {
                             width={18}
                             height={18}
                         />
-                        <span className="fs-14 fw-700">Add Plant</span>
+                        <span className="fs-14 fw-700">Add Bill</span>
                     </Button>
                 </div>
                 </Col>
@@ -229,10 +230,10 @@ const Plants = () => {
                             </div>
                         </Col>
                         
-                        <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">User</FormLabel>
+                        {/* <Col sm={4} xl={3}>
+                            <FormLabel className="fs-16 fw-500 text-dark">PPA</FormLabel>
                             <CustomSelectWhite
-                                placeholder="Select User"
+                                placeholder="Select PPA"
                                 options={[
                                     ...userOptions,
                                     // { value: undefined, label: "Clear Filter" }, // Acts as clear option
@@ -242,15 +243,15 @@ const Plants = () => {
                                     handleSelectChange(selected ? selected.value : undefined);
                                 }}
                                 value={
-                                    userId
-                                        ? userOptions.find((option) => option.value === userId) || null
+                                    ppaId
+                                        ? userOptions.find((option) => option.value === ppaId) || null
                                         : null
                                     }
                                     minHeight="60px"
                                     controlFontSize="14px"
                                     fontWeight="500"
                                 />
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Col>
                 
@@ -261,12 +262,12 @@ const Plants = () => {
                             <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
                                 <thead>
                                     <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
-                                    <th className="min-w-150px text-center">User Name</th>
-                                    <th className="min-w-160px text-center">Property Type</th>
-                                    <th className="min-w-160px text-center">Property Address</th>
-                                    <th className="min-w-160px text-center">City</th>
-                                    <th className="min-w-160px text-center">Bill Amount</th>
-                                    <th className="min-w-160px text-center">Electricity Rate</th>
+                                    <th className="min-w-150px text-center">Billing Month</th>
+                                    <th className="min-w-160px text-center">Billing Year</th>
+                                    <th className="min-w-160px text-center">Generated Unit</th>
+                                    <th className="min-w-160px text-center">Consumed Unit</th>
+                                    <th className="min-w-160px text-center">Exported Unit</th>
+                                    <th className="min-w-160px text-center">Total Amount</th>
                                     <th className="min-w-150px text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -281,19 +282,19 @@ const Plants = () => {
                                     </tr>
                                     ) : (
                                     <>
-                                        {plants.length === 0 && !loading ? (
+                                        {bills.length === 0 && !loading ? (
                                             <tr>
                                                 <td colSpan={4}>
                                                 <div className="w-100 d-flex justify-content-center text-center">
                                                     <div className="fw-bold fs-18">
-                                                        No Plants Found!
+                                                        No Bills Found!
                                                     </div>
                                                 </div>
                                                 </td>
                                             </tr>
                                         ) : (
                                             <>
-                                                {plants.map((plant, index) => (
+                                                {bills.map((bill, index) => (
                                                     <tr
                                                         key={index}
                                                         className=""
@@ -302,30 +303,30 @@ const Plants = () => {
                                                             className="fs-15 fw-500 text-center"
                                                             onClick={() =>
                                                                 navigate(
-                                                                    '/plant/view-details',
+                                                                    '/bill/view-details',
                                                                     {
-                                                                        state: plant,
+                                                                        state: bill,
                                                                     }
                                                                 )
                                                             }
                                                         >
-                                                            {plant?.userDetails?.name}
+                                                            {bill?.billingMonth}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.propertyType}
+                                                            {bill?.billingYear}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.address}
+                                                            {bill?.generatedUnits}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.city}
+                                                            {bill?.consumedUnits}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.billAmount}
+                                                            {bill?.exportedUnits}
+                                                        </td>
+                                                        <td className="fs-14 fw-500 text-center">
+                                                            {bill?.totalAmount}
                                                         </td> 
-                                                        <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.electricityRate}
-                                                        </td>
                                                         <td className="text-center">
                                                             <CustomSelectTable
                                                                 backgroundColor="white"
@@ -340,10 +341,10 @@ const Plants = () => {
                                                                 />
                                                                 }
                                                                 onChange={(event: any) => {
-                                                                    handlePlantOption(
+                                                                    handleBillOption(
                                                                         event,
                                                                         index,
-                                                                        plant
+                                                                        bill
                                                                     );
                                                                 }}
                                                                 options={[
@@ -380,15 +381,15 @@ const Plants = () => {
                 </Card>
                 </Col>
                 {totalRecords > 0 && !loading ? (
-                    <Pagination
-                        totalRecords={totalRecords}
-                        currentPage={page}
-                        handleCurrentPage={handleCurrentPage}
-                        handleNextPage={handleNextPage}
-                        handlePreviousPage={handlePreviousPage}
-                        handlePageLimit={handlePageLimit}
-                        pageLimit={pageLimit}
-                    />
+                        <Pagination
+                            totalRecords={totalRecords}
+                            currentPage={page}
+                            handleCurrentPage={handleCurrentPage}
+                            handleNextPage={handleNextPage}
+                            handlePreviousPage={handlePreviousPage}
+                            handlePageLimit={handlePageLimit}
+                            pageLimit={pageLimit}
+                        />
                     ) : (
                     <></>
                 )}
@@ -397,4 +398,4 @@ const Plants = () => {
     );
 }
 
-export default Plants;
+export default Bills;

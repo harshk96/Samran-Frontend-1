@@ -44,6 +44,6 @@ src/assets/db/
 src/notes.txt
 .vscode/settings.json
 /uploads
-config/dev.env
+dev.env
 .vscode/launch.json
 src/temp/

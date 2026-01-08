@@ -24,6 +24,12 @@ export const PPA = {
     PPAINFO : 'admin/ppa/info' + ' ' + constants.PATCH_FORM_ID,
 }
 
+export const Bill = {
+    ADDBILL : 'admin/bill/generate' + ' ' + constants.POST_RAW,
+    LISTBILL : 'admin/bill/list' + ' ' + constants.GET_URL_PARAMS,
+    BILLINFO : 'admin/bill/info' + ' ' + constants.PATCH_FORM_ID,
+}
+
 export const DASHBOARD = {
     GET_DASHBOARD_DATA: "admin/dashboard" + " " + constants.GET,
 };

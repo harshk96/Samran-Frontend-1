@@ -13,7 +13,11 @@ export interface IListPpa {
     _id: string,
     plantDetail: {
         plantId: string,
-        userId: number,
+        propertyType: string,
+        address: string,
+        city: string,
+        userId: string,
+        name: string,
     },
     plantCapacity: number,
     tarrif : number,

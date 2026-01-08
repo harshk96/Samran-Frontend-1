@@ -1,42 +1,42 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Col, FormLabel, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import {KTSVG} from "../../../_admin/helpers";
 import Loader from "../../../global/loader";
 import {PAGE_LIMIT} from "../../../utils/constants";
 import Pagination from "../../../global/pagination";
 import ThreeDots from "../../../_admin/assets/media/svg/threeDots.svg";
 import {CustomSelectTable} from "../../custom/select/CustomSelectTable";
 import APICallService from "../../../api/apiCallService";
-import {PLANT, USER} from "../../../api/apiEndPoints";
-import {PLANTAPIJSON} from "../../../api/apiJSON/plant";
+import {PPA, PLANT} from "../../../api/apiEndPoints";
+import {PPAAPIJSON} from "../../../api/apiJSON/ppa";
 import {useDebounce} from "../../../utils/useDebounce";
-import {IListPlant} from "../../../types";
+import {IListPpa} from "../../../types";
 import AddIcon from "../../../_admin/assets/media/svg/add.svg";
-import { USERAPIJSON } from "../../../api/apiJSON/user";
 import { CustomSelectWhite } from "../../custom/select/CustomSelectWhite";
+import { PLANTAPIJSON } from "../../../api/apiJSON/plant";
+import Method from "../../../utils/methods";
  
-const Plants = () => {
+const Ppa = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    const [plants, setPlants] = useState<IListPlant[]>([]);
+    const [ppas, setPpas] = useState<IListPpa[]>([]);
     const [totalRecords, setTotalRecords] = useState(0);
     const [page, setPage] = useState(1);
     const [showModel, setShowModel] = useState<boolean>(false);
-    const [plantId, setPlantId] = useState<string | null>(null);
-    const [userId, setUserId] = useState<string | undefined>(undefined);
+    const [ppaId, setPpaId] = useState<string | null>(null);
+    const [plantId, setPlantId] = useState<string | undefined>(undefined);
     const [pageLimit, setPageLimit] = useState(PAGE_LIMIT);
     const [searchTerm, setSearchTerm] = useState('');
-    const [userOptions, setUserOptions] = useState<any[]>([]);
+    const [plantOptions, setPlantOptions] = useState<any[]>([]);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            fetchUsersData(page, pageLimit, searchTerm)
+        const fetchPlants = async () => {
+            fetchPlantsData(page, pageLimit, searchTerm)
         };
-        fetchUsers();
-    }, []);
+        fetchPlants();
+    }, [])
 
-    const fetchUsersData = async (pageNo: number, limit: number, searchTerm: string = '') => {
+    const fetchPlantsData = async (pageNo: number, limit: number, searchTerm: string = '') => {
         setLoading(true);
         const params = {
             page: pageNo,
@@ -45,28 +45,27 @@ const Plants = () => {
             sortOrder: -1,
             needCount: true,
             searchTerm: searchTerm ? searchTerm : undefined,
-            
         }
-        const apiService = new APICallService(USER.LISTUSER, USERAPIJSON.listUser(params));
+        const apiService = new APICallService(PLANT.LISTPLANT, PLANTAPIJSON.listPlant(params));
         const response = await apiService.callAPI();
         if (response && response.records) {
-            const options = response.records.map((user: any) => ({
-                value: user._id,
-                label: `${user.name}`
+            const options = response.records.map((plant: any) => ({
+                value: plant._id,
+                label: `${plant?.propertyAddress?.address}`
             }));
-            setUserOptions(options);
+            setPlantOptions(options);
         }
     }
 
     useEffect(() => {
-        fetchPlants(page, pageLimit);
-    }, [] );
+        fetchPpa(page, pageLimit);
+    }, []);
 
-    const fetchPlants = async  (
+    const fetchPpa = async (
         pageNo: number,
         limit: number,
-        searchTerm: string = '',
-        userId: string | undefined = undefined,
+        searchTerm? : string,
+        ppaId? : string
     ) => {
         setLoading(true);
         let params = {
@@ -76,23 +75,33 @@ const Plants = () => {
             sortOrder: -1,
             needCount: true,
             searchTerm: searchTerm ? searchTerm : undefined,
-            // userId: userId ? userId : undefined,
         }
 
         let apiService = new APICallService(
-            PLANT.LISTPLANT,
-            PLANTAPIJSON.listPlant(params)
+            PPA.LISTPPA,
+            PPAAPIJSON.listPpa(params)
         );
 
         let response = await apiService.callAPI();
-        if(response) {
+        console.log("sdfghjkdfghuj",response);
+        if (response) {
             setTotalRecords(response.total);
-            setPlants(response.records);
+            setPpas(response.records);
         }
         setLoading(false);
+    }
+
+    const handleSelectChange = (
+        eventKey: string | number | undefined | null
+        ) => {
+        const newPlantId = eventKey ? eventKey.toString() : undefined;
+        setPlantId(newPlantId);
+        setPage(1);
+        fetchPpa(1, pageLimit, searchTerm, newPlantId);
     };
 
-    const debouncedSearch = useDebounce(fetchPlants, 400);
+
+    const debouncedSearch = useDebounce(fetchPpa, 400);
 
     const handleSearch = async (value: string) => {
         // value = value.trimStart();
@@ -105,75 +114,70 @@ const Plants = () => {
         setPage(1);
         setLoading(true);
         setTotalRecords(0);
-        await fetchPlants(1, pageLimit, value);
-    };  
-
-    const handleSelectChange = (eventKey: string | number | undefined | null) => {
-        const newUserId = eventKey ? eventKey.toString() : undefined;
-        setUserId(newUserId);
-        setPage(1);
-        fetchPlants(1, pageLimit, searchTerm, newUserId);
+        await fetchPpa(1, pageLimit, value);
     };
+
     const handleCurrentPage = async (val: number) => {
         if (val === page || val.toString() === '...') return;
         setPage(val);
-        await fetchPlants(
+        await fetchPpa(
             val,
             pageLimit,
             searchTerm,
-            userId,
         );
-    }
+    };
 
     const handleNextPage = async (val: number) => {
         setPage(val + 1);
-        await fetchPlants(
+        await fetchPpa(
             val + 1,
             pageLimit,
             searchTerm,
-            userId,
         );
     };
 
     const handlePreviousPage = async (val: number) => {
         setPage(val - 1);
-        await fetchPlants(
+        await fetchPpa(
             val - 1,
             pageLimit,
             searchTerm,
-            userId,
         );
     };
 
     const handlePageLimit = async (event: any) => {
         setPage(1);
         setPageLimit(+event.target.value);
-        await fetchPlants(
+        await fetchPpa(
             1,
             +event.target.value,
             searchTerm,
-            userId,
         );
     }
 
-    const handlePlantOption = async (
+    const handlePpaOption = async (
         event: any,
         index: number,
-        plant: any
+        ppa: any
     ) => {
         switch (event.value) {
             case 1:
-                navigate('/plant/all-plants/view-details', { state: plant });
+                navigate('/ppa/all-ppa/view-details', { state: ppa });
                 break;
 
             case 3:
                 setShowModel(true);
-                setPlantId(plant._id);
+                setPpaId(ppa._id);
                 break;
 
             default:
                 break;
         }
+    };
+
+    // Format expiryDate to dd-mm-yyyy
+    const formatDate = (dateString: string): string => {
+        return Method.convertDateToFormat(dateString, 'DD-MM-YYYY');
     };
 
     return (
@@ -202,7 +206,7 @@ const Plants = () => {
                             width={18}
                             height={18}
                         />
-                        <span className="fs-14 fw-700">Add Plant</span>
+                        <span className="fs-14 fw-700">Add PPA</span>
                     </Button>
                 </div>
                 </Col>
@@ -212,7 +216,7 @@ const Plants = () => {
                     className="mb-4"
                 >
                     <Row className="align-items-end g-5">
-                        <Col>
+                        {/* <Col>
                             <div className="position-relative flex-grow-1 d-flex align-items-center w-sm-300px w-md-375px w-lg-300px">
                                 <KTSVG
                                     path="/media/icons/duotune/general/gen021.svg"
@@ -222,34 +226,31 @@ const Plants = () => {
                                     type="text"
                                     id="kt_filter_search"
                                     className="form-control form-control-white min-h-60px form-control-lg ps-10"
-                                    placeholder="Search by Address, city, state"
+                                    placeholder="Search by "
                                     value={searchTerm}
                                     onChange={(event) => handleSearch(event.target.value)}
                                 />
                             </div>
-                        </Col>
+                        </Col> */}
                         
                         <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">User</FormLabel>
+                            <FormLabel className="fs-16 fw-500 text-dark">Plant</FormLabel>
                             <CustomSelectWhite
-                                placeholder="Select User"
-                                options={[
-                                    ...userOptions,
-                                    // { value: undefined, label: "Clear Filter" }, // Acts as clear option
-                                ]}
+                                placeholder="Select Plant"
+                                options={[...plantOptions]}
                                 isMulti={false}
                                 onChange={(selected: any) => {
                                     handleSelectChange(selected ? selected.value : undefined);
                                 }}
                                 value={
-                                    userId
-                                        ? userOptions.find((option) => option.value === userId) || null
-                                        : null
-                                    }
-                                    minHeight="60px"
-                                    controlFontSize="14px"
-                                    fontWeight="500"
-                                />
+                                    plantId
+                                    ? plantOptions.find((option) => option.value === plantId) || null
+                                    : null
+                                }
+                                minHeight="60px"
+                                controlFontSize="14px"
+                                fontWeight="500"
+                            />
                         </Col>
                     </Row>
                 </Col>
@@ -261,12 +262,12 @@ const Plants = () => {
                             <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
                                 <thead>
                                     <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
-                                    <th className="min-w-150px text-center">User Name</th>
-                                    <th className="min-w-160px text-center">Property Type</th>
                                     <th className="min-w-160px text-center">Property Address</th>
-                                    <th className="min-w-160px text-center">City</th>
-                                    <th className="min-w-160px text-center">Bill Amount</th>
-                                    <th className="min-w-160px text-center">Electricity Rate</th>
+                                    <th className="min-w-160px text-center">Property Type</th>
+                                    <th className="min-w-150px text-center">Plant Capacity</th>
+                                    <th className="min-w-160px text-center">Tarrif</th>
+                                    <th className="min-w-160px text-center">Start Date</th>
+                                    <th className="min-w-160px text-center">End Date </th>
                                     <th className="min-w-150px text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -281,19 +282,19 @@ const Plants = () => {
                                     </tr>
                                     ) : (
                                     <>
-                                        {plants.length === 0 && !loading ? (
+                                        {ppas.length === 0 && !loading ? (
                                             <tr>
                                                 <td colSpan={4}>
                                                 <div className="w-100 d-flex justify-content-center text-center">
                                                     <div className="fw-bold fs-18">
-                                                        No Plants Found!
+                                                        No PPAs Found!
                                                     </div>
                                                 </div>
                                                 </td>
                                             </tr>
                                         ) : (
                                             <>
-                                                {plants.map((plant, index) => (
+                                                {ppas.map((ppa, index) => (
                                                     <tr
                                                         key={index}
                                                         className=""
@@ -302,29 +303,29 @@ const Plants = () => {
                                                             className="fs-15 fw-500 text-center"
                                                             onClick={() =>
                                                                 navigate(
-                                                                    '/plant/view-details',
+                                                                    '/ppa/view-details',
                                                                     {
-                                                                        state: plant,
+                                                                        state: ppa,
                                                                     }
                                                                 )
                                                             }
                                                         >
-                                                            {plant?.userDetails?.name}
+                                                            {ppa?.plantDetail?.address}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.propertyType}
+                                                            {ppa?.plantDetail?.propertyType}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.address}
+                                                            {ppa?.plantCapacity}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.city}
+                                                            {ppa?.tarrif}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.billAmount}
+                                                            {formatDate(ppa?.startDate)}
                                                         </td> 
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.electricityRate}
+                                                            {formatDate(ppa?.endDate)}
                                                         </td>
                                                         <td className="text-center">
                                                             <CustomSelectTable
@@ -340,10 +341,10 @@ const Plants = () => {
                                                                 />
                                                                 }
                                                                 onChange={(event: any) => {
-                                                                    handlePlantOption(
+                                                                    handlePpaOption(
                                                                         event,
                                                                         index,
-                                                                        plant
+                                                                        ppa
                                                                     );
                                                                 }}
                                                                 options={[
@@ -397,4 +398,4 @@ const Plants = () => {
     );
 }
 
-export default Plants;
+export default Ppa;

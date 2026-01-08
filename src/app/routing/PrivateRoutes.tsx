@@ -7,7 +7,8 @@ import {getCSSVariableValue} from "../../_admin/assets/ts/_utils";
 import {WithChildren} from "../../_admin/helpers";
 import CmsPage from "../modules/cms";
 import Plants from "../modules/manage-plant/Plants";
-import Ppas from "../modules/manage-ppa/Ppas";
+import Ppas from "../modules/manage-ppa/Ppa";
+import Bills from "../modules/manage-bill/Bills";
 // import ManageUsersPage from "../modules/manage-user";
 // import ManageJobsPage from "../modules/manage-job";
 // import ManageSitesPage from "../modules/manage-site";
@@ -29,9 +30,9 @@ const PrivateRoutes = () => {
                 <Route path="auth/*" element={<Navigate to="/dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="plant/*" element={<Plants />} />
-                {/* <Route path="ppa/*" element={<Ppas />} /> */}
-                {/* <Route path="manage-tools/*" element={<ManageToolsPage />} />
-                <Route path="manage-jobs/*" element={<ManageJobsPage />} />
+                <Route path="ppa/*" element={<Ppas />} />
+                <Route path="bill/*" element={<Bills />} />
+                {/* <Route path="manage-jobs/*" element={<ManageJobsPage />} />
                 <Route path="manage-sites/*" element={<ManageSitesPage />} />
                 <Route path="manage-leaves/*" element={<ManageLeavesPage />} />
                 <Route path="manage-queries/*" element={<ManageQueriesPage />} />

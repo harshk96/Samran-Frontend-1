@@ -35,7 +35,7 @@ export const PPAAPIJSON = {
         }
     },
 
-    listPlant: ({
+    listPpa: ({
         page,
         limit,
         sortKey,

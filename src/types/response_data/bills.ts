@@ -1,4 +1,14 @@
-export interface IBillData {
+export interface IListBillParams {
+    page: number;
+    limit: number;
+    sortKey: string;
+    sortOrder: number;
+    needCount: boolean;
+    searchTerm?: string;
+    ppaId?: string;
+}
+
+export interface IListBill {
     _id: string,
     ppaDetail: {
         ppaId: string,
@@ -17,6 +27,4 @@ export interface IBillData {
     paymentRefId: string,
     paymentDate: string,
     deleted: boolean,
-    _createdAt: string,
-    _updatedAt: string,
 }

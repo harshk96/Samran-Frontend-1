@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import APICallService from '../../../api/apiCallService';
-// import { FIELD, JOB, SITE } from '../../../api/apiEndPoints';
-// import { JOBAPIJSON } from '../../../api/apiJSON/job';
 import CustomDatePicker from '../../custom/DateRange/DatePicker';
 import { CustomSelectWhite } from '../../custom/select/CustomSelectWhite';
 import { error, success } from '../../../global/toast';
 import CustomDateInput from '../../custom/DateRange/CustomDateInput';
 import Loader from '../../../global/loader';
+import { PLANT } from '../../../api/apiEndPoints';
+import { PLANTAPIJSON } from '../../../api/apiJSON/plant';
 import { USER } from '../../../api/apiEndPoints';
 import { USERAPIJSON } from '../../../api/apiJSON/user';
 
@@ -21,7 +21,7 @@ const addPlant = () => {
     const [formData, setFormData] = useState<any>({
         userId: null,
         propertyName: '',
-        PropertyTypes: 0,
+        propertyTypes: 0,
         address: '',
         city: '',
         state: '',
@@ -35,7 +35,7 @@ const addPlant = () => {
     const [validation, setValidation] = useState<any>({
         userId: false,
         propertyName: false,
-        PropertyTypes: false,
+        propertyTypes: false,
         address: false,
         city: false,
         state: false,
@@ -47,6 +47,7 @@ const addPlant = () => {
         plantStatus: false,
     });
 
+    // Fetch users from dropdown
     useEffect(() => {
         const fetchUsers = async () => {
             const params = {
@@ -81,6 +82,33 @@ const addPlant = () => {
         });
         validateField(name, value);
     };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files ? e.target.files[0] : null;
+
+        if (file) {
+            //Validate file type
+            const validTypes = [
+                'application/pdf',
+                'image/jpg',
+                'image/jpeg',
+                'image/png'
+            ];
+
+            if (!validTypes.includes(file.type)) {
+                error('Only JPG/JPEG/PNG files are allowed');
+                e.target.value = ''; // Clear invalid file
+                validateField('billImage', null);
+                return;
+            }
+        }
+
+        setFormData({
+            ...formData,
+            billImage : file
+        });
+        validateField('billImage', file)
+    }
 
     const validateField = (name: string, value: any) => {
         let isInvalid = false;
@@ -118,3 +146,5 @@ const addPlant = () => {
         }));
     }
 }
+
+export default addPlant;

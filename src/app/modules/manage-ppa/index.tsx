@@ -1,6 +1,6 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { PageTitle } from '../../../_admin/layout/core';
-import Ppa from './Ppas';
+import Ppa from './Ppa';
 
 const ManagePpaPage = () => {
     return (
