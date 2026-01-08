@@ -53,45 +53,26 @@ export const CMSTypes = (function () {
     return CMSTypes;
 })();
 
-export const ReceiverType = (function () {
-    function ReceiverType() {}
-    ReceiverType.SuperVisor = 2;
-    ReceiverType.Employee = 3;
-    ReceiverType.Subcontractor = 4;
-    ReceiverType.Everyone = 5;
-    return ReceiverType;
+const PropertyTypes = (function () {
+    function PropertyTypes() {};
+    PropertyTypes.HousingSociety = 1;
+    PropertyTypes.ManufacturingUnit = 2;
+    return PropertyTypes;
 })();
 
-export const NotificationType = (function () {
-    function NotificationType() {}
-    NotificationType.System = 1;
-    NotificationType.Custom = 2;
-    NotificationType.ApplyLeave = 3;
-    NotificationType.ActionLeave = 4;
-    NotificationType.ActionTimesheet = 5;
-    NotificationType.ActionRequisition = 6;
-    NotificationType.ActionJob = 7;
-    NotificationType.Reminder = 8;
-    NotificationType.AttendanceAlert = 9;
-    NotificationType.TimesheerAlert = 10;
-    NotificationType.UnsubmittedTimesheetAlert = 11;
-    NotificationType.TimesheetSubmissionReminder = 12;
-    return NotificationType;
+const PlantStatus = (function () {
+    function PlantStatus() {};
+    PlantStatus.Submitted = 1;
+    PlantStatus.Approved = 2;
+    PlantStatus.Rejected = 3;
+
+    return PlantStatus;
 })();
 
-export const BottleStatus = (function () {
-    function BottleStatus() {}
-    BottleStatus.Available = 1;
-    BottleStatus.OnSite = 2;
-    BottleStatus.Returned = 3;
-    BottleStatus.Generated = 4;
-    return BottleStatus;
-})();
-export const ToolStatus = (function () {
-    function ToolStatus() {}
-    ToolStatus.Available = 1;
-    ToolStatus.OnSite = 2;
-    ToolStatus.Returned = 3;
-    ToolStatus.Generated = 4;
-    return ToolStatus;
+const UserTypes = (function () {
+    function UserTypes() {}
+    UserTypes.Admin = 1;
+    UserTypes.Investor = 2;
+    UserTypes.Consumer = 3;
+    return UserTypes;
 })();

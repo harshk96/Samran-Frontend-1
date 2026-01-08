@@ -32,17 +32,7 @@ const PrivateRoutes = () => {
                 <Route path="plant/*" element={<Plants />} />
                 <Route path="ppa/*" element={<Ppas />} />
                 <Route path="bill/*" element={<Bills />} />
-                {/* <Route path="manage-jobs/*" element={<ManageJobsPage />} />
-                <Route path="manage-sites/*" element={<ManageSitesPage />} />
-                <Route path="manage-leaves/*" element={<ManageLeavesPage />} />
-                <Route path="manage-queries/*" element={<ManageQueriesPage />} />
-                <Route path="manage-Certificates/*" element={<ManageCertificatePage />} />
-                <Route path="manage-time-sheets/*" element={<ManageTimeSheetPage />} />
-                <Route path="manage-requisitions/*" element={<ManageRequisitionsPage />} />
-                <Route path="manage-field-types/*" element={<ManageFieldTypePage />} />
-                <Route path="manage-departments/*" element={<ManageDepartmentPage />} />
-                <Route path="send-notification/*" element={<SendNotificationPage />} />
-                <Route path="cms/*" element={<CmsPage />} /> */}
+                
     
                 <Route path="*" element={<Navigate to="/error/404" />} />
             </Route>
