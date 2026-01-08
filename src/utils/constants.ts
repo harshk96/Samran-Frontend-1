@@ -53,14 +53,14 @@ export const CMSTypes = (function () {
     return CMSTypes;
 })();
 
-const PropertyTypes = (function () {
+export const PropertyTypes = (function () {
     function PropertyTypes() {};
     PropertyTypes.HousingSociety = 1;
     PropertyTypes.ManufacturingUnit = 2;
     return PropertyTypes;
 })();
 
-const PlantStatus = (function () {
+export const PlantStatus = (function () {
     function PlantStatus() {};
     PlantStatus.Submitted = 1;
     PlantStatus.Approved = 2;
@@ -69,7 +69,7 @@ const PlantStatus = (function () {
     return PlantStatus;
 })();
 
-const UserTypes = (function () {
+export const UserTypes = (function () {
     function UserTypes() {}
     UserTypes.Admin = 1;
     UserTypes.Investor = 2;

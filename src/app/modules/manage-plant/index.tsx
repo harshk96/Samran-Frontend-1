@@ -1,6 +1,7 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { PageTitle } from '../../../_admin/layout/core';
 import Plants from './Plants';
+import AddPlant from './AddPlant';
 
 const ManagePlantPage = () => {
     return (
@@ -19,9 +20,16 @@ const ManagePlantPage = () => {
                         </>
                     }
                 />
+                <Route
+                    path='/add-plant'
+                    element={
+                        <>
+                            <PageTitle>Add Plant</PageTitle>
+                            <AddPlant />
+                        </>
+                    }
+                />
             </Route>
         </Routes>
-    )
-}
-
+    ) }
 export default ManagePlantPage;

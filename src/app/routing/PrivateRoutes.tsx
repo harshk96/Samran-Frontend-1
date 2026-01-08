@@ -7,21 +7,9 @@ import {getCSSVariableValue} from "../../_admin/assets/ts/_utils";
 import {WithChildren} from "../../_admin/helpers";
 import CmsPage from "../modules/cms";
 import Plants from "../modules/manage-plant/Plants";
-import Ppas from "../modules/manage-ppa/Ppa";
+import ManagePpaPage from "../modules/manage-ppa";
 import Bills from "../modules/manage-bill/Bills";
-// import ManageUsersPage from "../modules/manage-user";
-// import ManageJobsPage from "../modules/manage-job";
-// import ManageSitesPage from "../modules/manage-site";
-// import ManageLeavesPage from "../modules/manage-leave";
-// import ManageQueriesPage from "../modules/manage-query";
-// import ManageCertificatePage from "../modules/manage-certificate";
-// import ManageToolsPage from "../modules/manage-tool";
-// import WorkUpdatePage from "../modules/work-update";
-// import SendNotificationPage from "../modules/manage-notification";
-// import ManageTimeSheetPage from "../modules/timesheets";
-// import ManageRequisitionsPage from "../modules/requisitions";
-// import ManageFieldTypePage from "../modules/manage-field-type";
-// import ManageDepartmentPage from "../modules/manage-department";
+import ManagePlantPage from "../modules/manage-plant";
 
 const PrivateRoutes = () => {
     return (
@@ -29,8 +17,8 @@ const PrivateRoutes = () => {
             <Route element={<MasterLayout />}>
                 <Route path="auth/*" element={<Navigate to="/dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="plant/*" element={<Plants />} />
-                <Route path="ppa/*" element={<Ppas />} />
+                <Route path="plant/*" element={<ManagePlantPage />} />
+                <Route path="ppa/*" element={<ManagePpaPage />} />
                 <Route path="bill/*" element={<Bills />} />
                 
     
