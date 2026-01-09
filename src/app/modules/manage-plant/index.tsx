@@ -2,6 +2,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { PageTitle } from '../../../_admin/layout/core';
 import Plants from './Plants';
 import AddPlant from './AddPlant';
+import ViewPlant from './ViewPlant';
 
 const ManagePlantPage = () => {
     return (
@@ -26,6 +27,15 @@ const ManagePlantPage = () => {
                         <>
                             <PageTitle>Add Plant</PageTitle>
                             <AddPlant />
+                        </>
+                    }
+                />
+                <Route
+                    path="/view-details"
+                    element={
+                        <>
+                            <PageTitle>View Plant</PageTitle>
+                            <ViewPlant />
                         </>
                     }
                 />

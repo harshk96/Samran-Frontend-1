@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Dropdown, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import APICallService from '../../../api/apiCallService';
-import CustomDatePicker from '../../custom/DateRange/DatePicker';
 import { CustomSelectWhite } from '../../custom/select/CustomSelectWhite';
 import { error, success } from '../../../global/toast';
-import CustomDateInput from '../../custom/DateRange/CustomDateInput';
-import Loader from '../../../global/loader';
 import { PLANT } from '../../../api/apiEndPoints';
 import { PLANTAPIJSON } from '../../../api/apiJSON/plant';
 import { IAddPlant } from '../../../types/request_data/plant';
@@ -18,13 +15,11 @@ import { PropertyTypes } from '../../../utils/constants';
 
 const AddPlant = () => {
     const navigate = useNavigate();
-    const [propertyType, setPropertyType] = useState<number | undefined>(
-        undefined
+    const [propertyType, setPropertyType] = useState<number | null>(
+        null
     );
     const [loading, setLoading] = useState(false);
-    const [dataLoading, setDataLoading] = useState(false);
     const [userOptions, setUserOptions] = useState<any[]>([]);
-    const [users, setUsers] = useState<any[]>([]);
     const [formData, setFormData] = useState<IAddPlant>({
         userId: null,
         propertyName: '',
@@ -32,11 +27,11 @@ const AddPlant = () => {
         address: '',
         city: '',
         state: '',
-        pincode: 0,
-        roofArea: 0,
-        billAmount: 0,
+        pincode: null,
+        roofArea: null,
+        billAmount: null,
         billImage: null,
-        electricityRate: 0,
+        electricityRate: null,
     });
     const [validation, setValidation] = useState<any>({
         userId: false,
@@ -69,11 +64,13 @@ const AddPlant = () => {
 
             const response = await apiService.callAPI();
             console.log("rsdd", response.records);
+            console.log("rsdd", response.records[0]._id);
             if (response && response.records) {
                 const options = response.records.map((user: any) => ({
                     value: user._id,
                     label: `${user.name}`
                 }));
+                console.log("options",options);
                 setUserOptions(options);
             }
         };
@@ -126,12 +123,15 @@ const AddPlant = () => {
     }
 
     const handlePropertyTypeSelectChange = (name: string, eventKey: string | null) => {
-        const value = eventKey ? parseInt(eventKey) : undefined;
-        if (name === 'propertyType') {
-            setPropertyType(value);
-        } 
+        const value = eventKey ? parseInt(eventKey) : 0;
+        setPropertyType(value);
+        setFormData((prev) => ({
+            ...prev,
+            propertyType: value,
+        }));
         validateField(name, value);
-    }
+    };
+
 
     const validateField = (name: string, value: any) => {
         let isInvalid = false;
@@ -164,21 +164,36 @@ const AddPlant = () => {
     const handleAddPlant = async () => {
         setLoading(true);
         const newValidation = {
-            propertyName : formData.propertyName === '',
-            propertyType : formData.propertyType === null,
-            address : formData.address === '',
-            city : formData.city === '',
-            state : formData.state === '',
-            pincode : formData.pincode === null,
-            roofArea : formData.roofArea === null,
-            billAmount : formData.billAmount === null,
-            electricityRate : formData.electricityRate === null,
-            billImage : formData.billImage === null,
+            userId: !formData.userId,
+            propertyName : formData.propertyName.trim().length === 0,
+            propertyType : !formData.propertyType,
+            address : formData.address.trim().length === 0,
+            city : formData.city.trim().length === 0,
+            state : formData.state.trim().length === 0,
+            pincode : !formData.pincode,
+            roofArea : !formData.roofArea,
+            billAmount : !formData.billAmount,
+            electricityRate : !formData.electricityRate,
+            billImage : !formData.billImage
         }
         setValidation(newValidation);
 
-        const isValid = !Object.values(newValidation).some((value) => value);
+        let form = new FormData();
+        const Data = {
+            userId: formData.userId?.trim(),
+            propertyName: formData.propertyName.trim(),
+            propertyType: formData.propertyType,
+            address : formData.address.trim(),
+            state: formData.state.trim(),
+            city: formData.city.trim(),
+            roofArea : formData.roofArea,
+            pincode : formData.pincode,
+            electricityRate : formData.electricityRate,
+            billImage : formData.billImage,
+            billAmount : formData.billAmount,
+        }
 
+        const isValid = !Object.values(newValidation).some((value) => value);
         if(isValid) {
             try {
                 const apiService = new APICallService(
@@ -196,9 +211,12 @@ const AddPlant = () => {
                         electricityRate : formData.electricityRate,
                         billImage : formData.billImage 
                     })
+                    // PLANTAPIJSON.AddPlant(Data)
                 );
+                console.log("kanu", apiService);
 
                 const response = await apiService.callAPI();
+                console.log("response of add plant huuyyuuyuyuyuy", response);
                 if(response) {
                     success("Plant has been added successfully!");
                     navigate('/plant/all-plants')
@@ -535,7 +553,7 @@ const AddPlant = () => {
                                             onChange={handleSelectChange}
                                             value={userOptions.find(
                                                 (option) => option.value === formData.userId
-                                            )}
+                                            ) || null}
                                             minHeight="60px"
                                             controlFontSize="14px"
                                             fontWeight="500"

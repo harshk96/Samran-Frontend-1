@@ -16,8 +16,10 @@ export const PLANTAPIJSON = {
         electricityRate,
     } : IAddPlant) => {
         const formData = new FormData();
+        console.log("userId",userId);
         if (userId !== undefined && userId !== null) {
             formData.append("userId", userId);
+
         }
         if (propertyName !== undefined && propertyName !== null) {
             formData.append("propertyName", propertyName.trim());        
@@ -49,6 +51,9 @@ export const PLANTAPIJSON = {
         if (electricityRate !== undefined && electricityRate !== null) {
             formData.append("electricityRate", electricityRate.toString());        
         }
+
+
+        return formData;
     },
 
     listPlant: ({

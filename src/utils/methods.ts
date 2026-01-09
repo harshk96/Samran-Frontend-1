@@ -36,6 +36,19 @@ const Method = {
                 return "Unknown";
         }
     },
+    getPlantStatusLabel: (plantStatus: number) => {
+        switch (plantStatus) {
+            case PlantStatus.Submitted: 
+                return 'Submitted';
+            case PlantStatus.Approved:
+                return "Approved";
+            case PlantStatus.Rejected:
+                return "Rejected";
+            
+            default:
+                return "Unknown";
+        }
+    },
     plantStatusBadgeColor: (status: number) => {
         switch (status) {
             case PlantStatus.Submitted:

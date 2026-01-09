@@ -3,7 +3,7 @@ import {Button, Card, Col, FormLabel, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import {KTSVG} from "../../../_admin/helpers";
 import Loader from "../../../global/loader";
-import {PAGE_LIMIT} from "../../../utils/constants";
+import {PAGE_LIMIT, PlantStatus, PropertyTypes} from "../../../utils/constants";
 import Pagination from "../../../global/pagination";
 import ThreeDots from "../../../_admin/assets/media/svg/threeDots.svg";
 import {CustomSelectTable} from "../../custom/select/CustomSelectTable";
@@ -15,6 +15,7 @@ import {IListPlant} from "../../../types";
 import AddIcon from "../../../_admin/assets/media/svg/add.svg";
 import { USERAPIJSON } from "../../../api/apiJSON/user";
 import { CustomSelectWhite } from "../../custom/select/CustomSelectWhite";
+import Method from '../../../utils/methods';
  
 const Plants = () => {
     const navigate = useNavigate();
@@ -73,7 +74,7 @@ const Plants = () => {
             page: pageNo,
             limit: limit,
             sortKey: '_createdAt',
-            sortOrder: -1,
+            sortOrder: 1,
             needCount: true,
             searchTerm: searchTerm ? searchTerm : undefined,
             // userId: userId ? userId : undefined,
@@ -163,7 +164,7 @@ const Plants = () => {
     ) => {
         switch (event.value) {
             case 1:
-                navigate('/plant/all-plants/view-details', { state: plant });
+                navigate('/plant/view-details', { state: plant });
                 break;
 
             case 3:
@@ -265,6 +266,7 @@ const Plants = () => {
                                     <th className="min-w-160px text-center">Property Type</th>
                                     <th className="min-w-160px text-center">Property Address</th>
                                     <th className="min-w-160px text-center">City</th>
+                                    <th className="min-w-160px text-center">Plant Status</th>
                                     <th className="min-w-160px text-center">Bill Amount</th>
                                     <th className="min-w-160px text-center">Electricity Rate</th>
                                     <th className="min-w-150px text-center">Actions</th>
@@ -312,14 +314,36 @@ const Plants = () => {
                                                             {plant?.userDetails?.name}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
-                                                            {plant?.propertyAddress?.propertyType}
+                                                            {
+                                                                // Object.keys(PropertyTypes).find(
+                                                                //     key => PropertyTypes[key as keyof typeof PropertyTypes] ===
+                                                                //         plant?.propertyAddress?.propertyType
+                                                                // ) ?? "—"
+
+                                                                Method.getPropertyTypeLabel(
+                                                                    plant?.propertyAddress?.propertyType
+                                                                ) ?? "—"
+                                                            }
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
                                                             {plant?.propertyAddress?.address}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
                                                             {plant?.propertyAddress?.city}
+                                                        </td> 
+                                                       <td className="fs-14 fw-500 text-center">
+                                                            <span
+                                                                style={Method.plantStatusBadgeColor(plant?.plantStatus)}
+                                                                className="px-3 py-1 rounded"
+                                                            >
+                                                                {
+                                                                    Method.getPlantStatusLabel(
+                                                                        plant?.plantStatus 
+                                                                    ) ?? '-'
+                                                                }
+                                                            </span>
                                                         </td>
+
                                                         <td className="fs-14 fw-500 text-center">
                                                             {plant?.propertyAddress?.billAmount}
                                                         </td> 
@@ -349,9 +373,18 @@ const Plants = () => {
                                                                 options={[
                                                                     {
                                                                         label: (
-                                                                        <button className="btn btn-link fs-14 fw-500 text-black w-100 d-flex justify-content-center align-items-center py-3">
-                                                                            View details
-                                                                        </button>
+                                                                            <button className="btn btn-link fs-14 fw-500 text-black w-100 d-flex justify-content-center align-items-center py-3"
+                                                                                onClick={() =>
+                                                                                navigate(
+                                                                                    '/plant/view-details',
+                                                                                    {
+                                                                                        state: plant,
+                                                                                    }
+                                                                                )
+                                                                            }
+                                                                            >
+                                                                                View details
+                                                                            </button>
                                                                         ),
                                                                         value: 1,
                                                                     },

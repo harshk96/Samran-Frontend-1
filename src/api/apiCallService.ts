@@ -332,10 +332,8 @@ class APICallService {
     }
     async callAPI() {
         const mObj = await GlobalValidations.checkNetConnection()
-        console.log("mObj", mObj);
         if (!mObj) {
             let temp: any = window
-            console.log("temp", temp);
             temp.location = temp.location.protocol + '//' + temp.location.host + '/error/network'
             return 0
         } else {

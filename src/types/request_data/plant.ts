@@ -45,9 +45,9 @@ export interface IAddPlant {
     address: string,
     city : string,
     state: string,
-    pincode: number,
-    roofArea: number,
-    billAmount: number,
+    pincode: number | null,
+    roofArea: number | null,
+    billAmount: number | null,
     billImage : File | null,
-    electricityRate: number,
+    electricityRate: number | null,
 }

@@ -12,7 +12,7 @@ export const AUTH = {
 }
 
 export const PLANT = {
-    ADDPLANT : 'admin/plant/add' + ' ' + constants.POST_RAW,
+    ADDPLANT : 'admin/plant/add' + ' ' + constants.POST_FORM,
     LISTPLANT : 'admin/plant/list' + ' ' + constants.GET_URL_PARAMS,
     PLANTINFO : 'admin/plant/info' + ' ' + constants.PATCH_FORM_ID,
     PLANTSTATUSUPDATE : 'admin/plant/status/update' + ' ' + constants.GET_ID_PARAMS,

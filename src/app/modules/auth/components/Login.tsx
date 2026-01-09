@@ -51,8 +51,7 @@ export function Login() {
             console.log("response", response);
             if(response) {
                 saveAuth(response?.token);
-                saveCurrentUser(response?.user);
-                console.log("mjdisbjji",response?.user);
+                saveCurrentUser(response?.admin);
                 // navigate('/dashboard');
             } else {
                 setStatus('The login details are incorrect');
