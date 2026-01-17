@@ -194,7 +194,7 @@ const Bills = () => {
                     <Button
                         variant="primary"
                         className="fs-16 fw-bold btn-lg"
-                        onClick={() => navigate('/bill/all-bills/add-bill')}
+                        onClick={() => navigate('/bill/add-bill')}
                     >
                         <img
                             src={AddIcon}

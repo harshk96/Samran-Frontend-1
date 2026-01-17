@@ -21,7 +21,7 @@ const SidebarMenuMain = () => {
             <SidebarMenuItem to="/users/all-users" icon={ManageStudentIcon} title="Users" />
             <SidebarMenuItem to="/plant/all-plants" icon={JobIcon} title="Plants" />
             <SidebarMenuItem to="/ppa/all-ppa" icon={DashboardIcon} title="PPA" />
-            <SidebarMenuItem to="/bill/all-bill" icon={LeaveIcon} title="Bill" />
+            <SidebarMenuItem to="/bill/all-bills" icon={LeaveIcon} title="Bill" />
             {/* <SidebarMenuItem to="/manage-queries" icon={QueryIcon} title="Manage Queries" />
             <SidebarMenuItem to="/manage-Certificates" icon={CertificateIcon} title="Manage Certificates" />
             <SidebarMenuItem to="/manage-time-sheets" icon={TimeSheetIcon} title="Manage Time Sheets" />

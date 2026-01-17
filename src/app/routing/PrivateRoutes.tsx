@@ -6,8 +6,8 @@ import Dashboard from "../modules/dashboard/Dashboard";
 import {getCSSVariableValue} from "../../_admin/assets/ts/_utils";
 import {WithChildren} from "../../_admin/helpers";
 import ManagePpaPage from "../modules/manage-ppa";
-import Bills from "../modules/manage-bill/Bills";
 import ManagePlantPage from "../modules/manage-plant";
+import ManageBillPage from "../modules/manage-bill";
 
 const PrivateRoutes = () => {
     return (
@@ -17,7 +17,7 @@ const PrivateRoutes = () => {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="plant/*" element={<ManagePlantPage />} />
                 <Route path="ppa/*" element={<ManagePpaPage />} />
-                <Route path="bill/*" element={<Bills />} />
+                <Route path="bill/*" element={<ManageBillPage />} />
     
                 <Route path="*" element={<Navigate to="/error/404" />} />
             </Route>

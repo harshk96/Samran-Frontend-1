@@ -16,10 +16,10 @@ export interface IBillData {
 }
 
 export interface IAddBill {
-    ppaId: string,
-    billingMonth: number,
-    billingYear: number,
-    generatedUnits: number,
-    consumedUnits: number,
-    exportedUnits: number,
+    ppaId: string | null,
+    billingMonth: number | null,
+    billingYear: number | null,
+    generatedUnits: number | null,
+    consumedUnits: number | null,
+    exportedUnits: number | null,
 }

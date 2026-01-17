@@ -10,6 +10,7 @@ export const BILLAPIJSON = {
         exportedUnits,
     } : IAddBill) => {
         const formData = new FormData();
+        console.log(ppaId, billingMonth, billingYear, generatedUnits, consumedUnits, exportedUnits);
         if (ppaId !== undefined && ppaId !== null) {
             formData.append("ppaId", ppaId);
         }
@@ -28,6 +29,7 @@ export const BILLAPIJSON = {
         if (exportedUnits !== undefined && exportedUnits !== null) {
             formData.append("exportedUnits", exportedUnits.toString());        
         }
+        return formData;
     },
 
     listBill: ({
@@ -46,7 +48,7 @@ export const BILLAPIJSON = {
             sortOrder,
             needCount,
             ...(searchTerm !== undefined && {searchTerm: searchTerm.trim()}),
-            ppaId
+            ...(ppaId !== undefined && {ppaId: ppaId.trim()}),
         };
     }
 }

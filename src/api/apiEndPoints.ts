@@ -22,6 +22,7 @@ export const PPA = {
     ADDPPA : 'admin/ppa/create' + ' ' + constants.POST_FORM,
     LISTPPA : 'admin/ppa/list' + ' ' + constants.GET_URL_PARAMS,
     PPAINFO : 'admin/ppa/info' + ' ' + constants.PATCH_FORM_ID,
+    SIGNPPA : 'admin/ppa/sign' + ' ' + constants.PATCH_ID,
 }
 
 export const Bill = {
