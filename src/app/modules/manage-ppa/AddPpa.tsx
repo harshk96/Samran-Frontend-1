@@ -141,7 +141,6 @@ const AddPpa = () => {
     };
 
     const handleAddPpa = async () => {
-        console.log("kanuuuuuuuu");
         setLoading(true);
         const newValidation = {
             plantId: !formData.plantId,
@@ -164,13 +163,10 @@ const AddPpa = () => {
             ppaDocument : formData.ppaDocument,
             leaseDocument : formData.leaseDocument
         }
-        console.log("Data", Data.startDate);
-
         const isValid = !Object.values(newValidation).some((value) => value);
-        console.log("isValid tmkoc",isValid);
+
         if(isValid) {
             try {
-                console.log("formData",formData);
                 const apiService = new APICallService(
                     PPA.ADDPPA,
                     PPAAPIJSON.AddPpa({
@@ -183,20 +179,16 @@ const AddPpa = () => {
                         leaseDocument : formData.leaseDocument 
                     })
                 );
-                console.log("kanu", apiService);
 
                 const response = await apiService.callAPI();
-                console.log("response of add ppa", response);
                 if(response) {
                     success("PPA has been added successfully!");
                     navigate('/ppa/all-ppa')
                 }
             } catch (err) {
-                console.log("hetee catch");
                 error('Failed to add ppa');
             }
         }
-        console.log("after if");
         setLoading(false);
     }
 

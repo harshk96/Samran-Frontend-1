@@ -4,6 +4,7 @@ import Users from "./user/Users";
 import AddUser from "./user/AddUser";
 import EditUser from "./user/EditUser";
 import UserDetails from "./user/UserDetails";
+import ViewUser from "./user/UserDetails";
 
 const ManageUsersPage = () => {
     return (
@@ -11,7 +12,7 @@ const ManageUsersPage = () => {
             <Route element={<Outlet />}>
                 <Route  
                     index
-                    element={<Navigate to='/manage-users/all-users' />}
+                    element={<Navigate to='/user/all-users' />}
                 />
                 <Route
                     path="/all-users"
@@ -22,7 +23,7 @@ const ManageUsersPage = () => {
                         </>
                     }
                 />
-                <Route
+                {/* <Route
                     path="/add-user"
                     element={
                         <>
@@ -30,8 +31,8 @@ const ManageUsersPage = () => {
                             <AddUser />
                         </>
                     }
-                />
-                <Route
+                /> */}
+                {/* <Route
                     path="/edit-user"
                     element={
                         <>
@@ -39,17 +40,17 @@ const ManageUsersPage = () => {
                             <EditUser />
                         </>
                     }
-                />
+                /> */}
                 <Route
                     path="/view-details"
                     element={
                         <>
                             <PageTitle>User Details</PageTitle>
-                            <UserDetails />
+                            <ViewUser />
                         </>
                     }
                 />
-                <Route
+                {/* <Route
                     path="/user-details"
                     element={
                         <>
@@ -57,7 +58,7 @@ const ManageUsersPage = () => {
                             <UserDetails />
                         </>
                     }
-                />
+                /> */}
             </Route>
         </Routes>
     );

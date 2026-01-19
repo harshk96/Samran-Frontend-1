@@ -64,9 +64,7 @@ const Plants = () => {
                 value: user._id,
                 label: `${user.name}`
             }));
-            console.log("options,jdjd",options);
             setUserOptions(options);
-            console.log("set userid",userOptions);
         }
     }
 
@@ -101,7 +99,6 @@ const Plants = () => {
         );
 
         let response = await apiService.callAPI();
-        console.log(response);
         if(response) {
             setTotalRecords(response.total);
             setPlants(response.records);
@@ -134,7 +131,6 @@ const Plants = () => {
     
     const handleSelectPlantStatusChange = (eventKey: number | undefined) => {
         const plantStatus = eventKey ? eventKey : undefined;
-        console.log("plantStatus selected",plantStatus);
         setPlantStatus(plantStatus);
         setPage(1);
         fetchPlants(page, pageLimit, searchTerm, userId, plantStatus, propertyType);
@@ -142,7 +138,6 @@ const Plants = () => {
     
     const handleSelectPropertyTypeChange = (eventKey: number | undefined) => {
         const propertyType = eventKey ? eventKey : undefined;
-        console.log("Property type",propertyType);
         setPropertyType(propertyType);
         setPage(1);
         fetchPlants(page, pageLimit, searchTerm, userId, plantStatus, propertyType);
@@ -201,30 +196,6 @@ const Plants = () => {
         setSelectedPlantId(leaveId);
         setShowModal(true);
     };
-
-    // const handleActionSubmit = async (action: 2 | 3, reason: string) => {
-    //     if (!selectedPlantId) return;
-    //     setLoading(true);
-    //     const apiService = new APICallService(
-    //         PLANT.PLANTSTATUSUPDATE,
-    //         PLANTAPIJSON.ApproveRejectPlant({
-    //             plantStatus: action,
-    //             rejectionReason: action === 3 ? reason : null
-    //         }),
-    //         {_id: selectedPlantId}
-    //     );
-
-    //     console.log("apiService jiju",apiService);
-    //     const response = await apiService.callAPI();
-    //     console.log("response status",response);
-    //     if (response) {
-    //         const actionText = action === 2 ? "approved" : "rejected";
-    //         success(`Plant ${actionText} Successfully`);
-    //         await fetchPlants(page, pageLimit, searchTerm, userId, plantStatus, propertyType);
-    //     }
-    //     setShowModal(false);
-    //     setLoading(false);
-    // }
 
     const handleActionSubmit = async (action: 2 | 3, reason: string) => {
     if (!selectedPlantId) return;

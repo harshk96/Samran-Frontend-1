@@ -88,7 +88,6 @@ const AddUser = () => {
         userType: false,
         sagePayrollCode: false,
     });
-    console.log("formData", formData);
     const handleInputChange = (e: any) => {
         const {name, value} = e.target;
         let updatedValue = value;

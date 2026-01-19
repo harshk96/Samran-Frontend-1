@@ -44,7 +44,7 @@ export const PPAAPIJSON = {
         needCount,
         searchTerm,
         plantId,
-        isSigned
+        isSigned,
     }: IListPpaParams) => {
         return {
             pageNo : page,
@@ -54,7 +54,7 @@ export const PPAAPIJSON = {
             needCount,
             ...(searchTerm !== undefined && {searchTerm: searchTerm.trim()}),
             ...(plantId !== undefined && {plantId: plantId.trim()}),
-            isSigned
+            ...(isSigned !== undefined && { isSigned })
         };
     }
 }

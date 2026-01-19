@@ -34,7 +34,6 @@ const [actionType, setActionType] = useState<2 | 3 | "">("");
         const newValidation = {
             actionType: !actionType,
         };
-        console.log("newValidation",newValidation);
         setValidation(newValidation);
 
         if (newValidation.actionType) {

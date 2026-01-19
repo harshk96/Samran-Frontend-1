@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import {useLocation, useNavigate} from "react-router-dom";
 import Method from "../../../utils/methods";
-import { PlantStatus, PropertyTypes } from "../../../utils/constants";
+import { Months, PlantStatus, PropertyTypes } from "../../../utils/constants";
 import PlaceholderLogo from "../../../_admin/assets/media/svg/placeholder.svg";
 
 const ViewBill = () => {
@@ -24,7 +24,7 @@ const ViewBill = () => {
                     <Card.Body className="p-6">
                         <div className="text-center">
                             <i className="bi bi-file-earmark-x fs-48 text-muted mb-3"></i>
-                            <p className="fs-16 fw-500 text-muted mb-0">No Plant data available.</p>
+                            <p className="fs-16 fw-500 text-muted mb-0">No Bill data available.</p>
                         </div>
                     </Card.Body>
                 </Card>
@@ -68,7 +68,7 @@ const ViewBill = () => {
                             >
                                 <i className="bi bi-arrow-left fs-24 text-dark"></i>
                             </Button>
-                            <h1 className="fs-22 fw-bolder mb-0">Plant Details</h1>
+                            <h1 className="fs-22 fw-bolder mb-0">Bill Details</h1>
                         </div>
                     </div>
                 </Col>
@@ -81,125 +81,24 @@ const ViewBill = () => {
                         <Card.Header className="bg-light border-bottom-0 pb-0">
                             <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">
                                 <i className="bi bi-info-circle me-2 text-primary"></i>
-                                    Plant Information
+                                    Bill Information
                             </h5>
                         </Card.Header>
                         <Card.Body className="p-6">
+                            <InfoCard icon="bi bi-award" label="Billing Year" value={state?.billingYear || "—"} />
                             <InfoCard
-                                icon="bi bi-person"
-                                label="User Name"
-                                value={state?.userDetails?.name}
-                            />
-                            <InfoCard icon="bi bi-award" label="Property Name" value={state?.propertyAddress?.propertyName || "—"} />
-                            <InfoCard
-                                icon="bi bi-award" 
-                                label="Property Name" 
+                                icon="bi bi-award"
+                                label="Billing Month"
                                 value={
-                                        Object.keys(PropertyTypes).find( key => PropertyTypes[key as keyof typeof PropertyTypes] ===
-                                            state?.propertyAddress?.propertyType) ?? "—"
+                                    Object.keys(Months).find(
+                                    key => Months[key as keyof typeof Months] === state?.billingMonth
+                                    ) ?? "—"
                                 }
-                             />
-                            <InfoCard icon="bi bi-award" label="Property Address" value={state?.propertyAddress?.address || "—"} />
-                            <InfoCard icon="bi bi-award" label="City" value={state?.propertyAddress?.city || "—"} />
-                            <InfoCard icon="bi bi-award" label="State" value={state?.propertyAddress?.state || "—"} />
-                            <InfoCard icon="bi bi-award" label="Pincode" value={state?.propertyAddress?.pincode || "—"} />
-                            <InfoCard icon="bi bi-award" label="Roof Area" value={state?.propertyAddress?.roofArea || "—"} />
-                            <InfoCard icon="bi bi-award" label="Bill Amount" value={state?.propertyAddress?.billAmount || "—"} />
-                            <InfoCard icon="bi bi-award" label="Electricity Rate" value={state?.propertyAddress?.electricityRate || "—"} />
-                            {state?.plantStatus === PlantStatus.Submitted && (
-                                <InfoCard
-                                    icon="bi bi-award"
-                                    label="Plant Status"
-                                    value={
-                                        Method.getPlantStatusLabel(state?.plantStatus)
-                                        || 
-                                    "—"}
-                                />
-                            )}
-
-                            {state?.plantStatus === PlantStatus.Approved && (
-                                <>
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Plant Status"
-                                        value={
-                                            Method.getPlantStatusLabel(state?.plantStatus)
-                                            || 
-                                        "—"}
-                                    />
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Approved By"
-                                        value={state?.approvedBy?.userDetails?.name || "—"}
-                                    />
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Approved By"
-                                        value={formatDate(state?.approvedBy?.userDetails?.approvedOn) || "—"}
-                                    />
-                                </>
-                            )}
-
-                            {state?.plantStatus === PlantStatus.Rejected && (
-                                <>
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Plant Status"
-                                        value={
-                                            Method.getPlantStatusLabel(state?.plantStatus)
-                                            || 
-                                        "—"}
-                                    />
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Approved By"
-                                        value={state?.rejectedBy?.userDetails?.name || "—"}
-                                    />
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Approved By"
-                                        value={formatDate(state?.rejectedBy?.userDetails?.rejectedOn) || "—"}
-                                    />
-                                    <InfoCard
-                                        icon="bi bi-award"
-                                        label="Approved By"
-                                        value={state?.rejectedBy?.userDetails?.rejectionReason || "—"}
-                                    />
-                                </>
-                            )}
-                            <div className="d-flex justify-content-center align-items-center">
-                                <div
-                                    className="border rounded p-4 bg-light"
-                                    style={{
-                                        width: "100%",
-                                        maxWidth: "300px",
-                                        minHeight: "300px",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                    }}
-                                >
-                                    {state?.propertyAddress?.billImage ? (
-                                        <img
-                                            src={state?.propertyAddress?.billImage}
-                                            className="img-fluid rounded"
-                                            alt="Bill"
-                                            style={{
-                                                maxWidth: "100%",
-                                                maxHeight: "300px",
-                                                objectFit: "contain",
-                                            }}
-                                        />
-                                    ) : (
-                                        <img
-                                            src={PlaceholderLogo}
-                                            className="img-fluid"
-                                            alt="Placeholder"
-                                            style={{maxWidth: "200px", maxHeight: "200px"}}
-                                        />
-                                    )}
-                                </div>
-                            </div>
+                            />
+                            <InfoCard icon="bi bi-award" label="Generated Units" value={state?.generatedUnits || "—"} />
+                            <InfoCard icon="bi bi-award" label="Consumed Units" value={state?.consumedUnits || "—"} />
+                            <InfoCard icon="bi bi-award" label="Exported Units" value={state?.exportedUnits || "—"} />
+                            <InfoCard icon="bi bi-award" label="Total Amount" value={state?.totalAmount || "—"} />
                         </Card.Body>
                     </Card>
                 </Col>

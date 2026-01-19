@@ -63,14 +63,11 @@ const AddPlant = () => {
             );
 
             const response = await apiService.callAPI();
-            console.log("rsdd", response.records);
-            console.log("rsdd", response.records[0]._id);
             if (response && response.records) {
                 const options = response.records.map((user: any) => ({
                     value: user._id,
                     label: `${user.name}`
                 }));
-                console.log("options",options);
                 setUserOptions(options);
             }
         };
@@ -194,7 +191,6 @@ const AddPlant = () => {
         }
 
         const isValid = !Object.values(newValidation).some((value) => value);
-        console.log("isValid",isValid);
         if(isValid) {
             try {
                 const apiService = new APICallService(
@@ -214,10 +210,8 @@ const AddPlant = () => {
                     })
                     // PLANTAPIJSON.AddPlant(Data)
                 );
-                console.log("kanu", apiService);
 
                 const response = await apiService.callAPI();
-                console.log("response of add plant huuyyuuyuyuyuy", response);
                 if(response) {
                     success("Plant has been added successfully!");
                     navigate('/plant/all-plants')

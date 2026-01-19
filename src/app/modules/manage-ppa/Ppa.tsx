@@ -80,7 +80,7 @@ const Ppa = () => {
             needCount: true,
             searchTerm: searchTerm ? searchTerm : undefined,
             plantId: plantId ? plantId : undefined,
-            isSigned: isSigned ? true : false ,
+            isSigned: isSigned !== undefined ? isSigned : undefined,            
         }
 
         let apiService = new APICallService(
@@ -89,8 +89,6 @@ const Ppa = () => {
         );
 
         let response = await apiService.callAPI();
-        console.log(response.records[0].isSigned);
-        console.log("response nnduh", response.isSigned);
         if (response) {
             setTotalRecords(response.total);
             setPpas(response.records);
@@ -163,17 +161,15 @@ const Ppa = () => {
     }
 
     const handleStatusChange = (eventKey: string | null) => {
-        let isSigned: boolean | undefined = undefined;
-        if (eventKey === "true") {
-            isSigned = true;
-        } else if (eventKey === "false") {
-            isSigned = false;
-        } else if (eventKey === "clear" || eventKey === null) {
-            isSigned = undefined;
-        }
-        setSignedFilter(isSigned);
+        let filter: boolean | undefined = undefined;
+
+        if (eventKey === "true") filter = true;
+        if (eventKey === "false") filter = false;
+
+        setSignedFilter(filter);
         setPage(1);
-        fetchPpa(1, pageLimit, searchTerm, isSigned);
+
+        fetchPpa(1, pageLimit, searchTerm, plantId, filter);  
     };
 
     const handlePpaOption = async (
@@ -307,19 +303,19 @@ const Ppa = () => {
                                     </Dropdown.Item>
                                 <Dropdown.Divider style={{ margin: '8px 0' }} />
                                 <Dropdown.Item
-                                eventKey={undefined}
-                                className="fs-14 fw-500 text-dark"
-                                style={{ padding: '12px 16px', color: '#5e6278' }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.color = '#1b74e4';
-                                    e.currentTarget.style.backgroundColor = '#f1faff';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.color = '#5e6278';
-                                    e.currentTarget.style.backgroundColor = 'transparent';
-                                }}
-                                >
-                                Clear Filter
+                                    eventKey={undefined}
+                                    className="fs-14 fw-500 text-dark"
+                                    style={{ padding: '12px 16px', color: '#5e6278' }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.color = '#1b74e4';
+                                        e.currentTarget.style.backgroundColor = '#f1faff';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.color = '#5e6278';
+                                        e.currentTarget.style.backgroundColor = 'transparent';
+                                    }}
+                                    >
+                                    Clear Filter
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                             </Dropdown>

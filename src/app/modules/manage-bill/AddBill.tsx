@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Dropdown, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Dropdown, Form, FormLabel, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import APICallService from '../../../api/apiCallService';
 import { CustomSelectWhite } from '../../custom/select/CustomSelectWhite';
@@ -10,6 +10,9 @@ import { IAddBill } from '../../../types/request_data/bill';
 import { PPA } from '../../../api/apiEndPoints';
 import { PPAAPIJSON } from '../../../api/apiJSON/ppa';
 import clsx from 'clsx';
+import { Months } from '../../../utils/constants';
+import Method from '../../../utils/methods';
+import CustomDatePicker from '../../custom/DateRange/DatePicker';
 
 const AddBill = () => {
     const navigate = useNavigate();
@@ -62,11 +65,14 @@ const AddBill = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        validateField(name, value);
+        const parsedValue = value === "" ? null : Number(value);
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: parsedValue,
+        }));
+
+        validateField(name, parsedValue);
     };
 
     const handleSelectChange = (selected: any) => {
@@ -80,18 +86,10 @@ const AddBill = () => {
 
     const validateField = (name: string, value: any) => {
         let isInvalid = false;
-        if(name === 'ppaId') {
-            isInvalid = value.trim() === '';
-        } else if( name === 'billingMonth') {
-            isInvalid = value === 0;
-        } else if (name === 'billingYear') {   
-            isInvalid = value === 0;
-        } else if( name === 'generatedUnits') {
-            isInvalid = value === 0;
-        } else if (name === 'consumedUnits') {   
-            isInvalid = value === 0;
-        } else if( name === 'exportedUnits') {
-            isInvalid = value === 0;
+         if (name === 'ppaId') {
+            isInvalid = !value;
+        } else {
+            isInvalid = value === null || value === 0;
         }  
 
         setValidation((prev) => ({
@@ -103,12 +101,12 @@ const AddBill = () => {
     const handleAddBill = async () => {
         setLoading(true);
         const newValidation = {
-            ppaId: !formData.ppaId,
-            billingMonth : !formData.billingMonth,
-            billingYear : !formData.billingYear,
-            generatedUnits : !formData.generatedUnits,
-            consumedUnits : !formData.consumedUnits,
-            exportedUnits : !formData.exportedUnits
+            ppaId: formData.ppaId === null,
+            billingMonth: formData.billingMonth === null,
+            billingYear: formData.billingYear === null,
+            generatedUnits: formData.generatedUnits === null,
+            consumedUnits: formData.consumedUnits === null,
+            exportedUnits: formData.exportedUnits === null,
         }
         setValidation(newValidation);
         const isValid = !Object.values(newValidation).some((value) => value);
@@ -116,19 +114,10 @@ const AddBill = () => {
             try {
                 const apiService = new APICallService(
                     Bill.ADDBILL,
-                    BILLAPIJSON.AddBill({
-                        ppaId: formData.ppaId,
-                        billingMonth: formData.billingMonth,
-                        billingYear: formData.billingYear,
-                        generatedUnits : formData.generatedUnits,
-                        consumedUnits: formData.consumedUnits,
-                        exportedUnits: formData.exportedUnits,
-                    })
+                    BILLAPIJSON.AddBill(formData)
                 );
-                console.log("kanu", apiService);
 
                 const response = await apiService.callAPI();
-                console.log("response", response);
                 if(response) {
                     success("Bill created successfully!");
                     navigate('/bill/all-bills')
@@ -143,6 +132,27 @@ const AddBill = () => {
     const handleBack = () => {
         navigate('/bill/all-bills')
     }
+
+    const handleMonthSelect = (eventKey: string | null) => {
+        const value = eventKey ? Number(eventKey) : null;
+
+        setFormData((prev) => ({
+            ...prev,
+            billingMonth: value,
+        }));
+
+        validateField('billingMonth', value);
+    };
+
+    const handleDateChange = (date: Date | null) => {
+        const year = date ? date.getFullYear() : null;
+        setFormData({
+            ...formData,
+            billingYear: year,
+        });
+
+        validateField('billingYear', year);
+    };
 
     return (
         <div className="p-9">
@@ -187,42 +197,76 @@ const AddBill = () => {
                                         fontWeight="500"
                                     />
                                 </Form.Group>
+                                <Col sm={6} xl={4}>
+                                    <FormLabel className="fs-16 fw-500 text-dark required">
+                                        Billing Month
+                                    </FormLabel>
+
+                                    <Dropdown onSelect={handleMonthSelect}>
+                                        <Dropdown.Toggle
+                                        variant="white"
+                                        className={clsx(
+                                            'form-control bg-white min-h-50px fs-14 fw-bold text-dark text-start border border-3px border-radius-15px',
+                                            { 'border-danger': validation.billingMonth }
+                                        )}
+                                        id="dropdown-billing-month"
+                                        >
+                                        {formData.billingMonth
+                                            ? Method.getMonthLabel(formData.billingMonth)
+                                            : 'Select Billing Month'}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                        {Object.values(Months)
+                                            .filter(v => typeof v === "number")
+                                            .map((month) => (
+                                            <Dropdown.Item key={month} eventKey={month}>
+                                                {Method.getMonthLabel(month)}
+                                            </Dropdown.Item>
+                                        ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Col>
                             </Row>
                             </Col>
 
-                            <Col>
-                            <Row>
-                                <Col
-                                    md={6}
-                                    className="mb-3"
+                            <Col
+                                md={6}
+                                className="mb-3"
                                 >
                                 <Form.Group
                                     className="mb-3"
-                                    controlId="billingMonth"
+                                    controlId="billingYear"
                                 >
                                     <Form.Label className="fs-16 fw-500 required">
-                                        Billing Month
+                                        Billing Year
                                     </Form.Label>
-                                    <Form.Control
+                                    <CustomDatePicker
                                         className={clsx(
                                             'form-control bg-white min-h-60px fs-15 fw-500 border-radius-15px',
-                                            { 'border-danger': validation.billingMonth }
+                                            { 'border-danger': validation.billingYear }
                                         )}
-                                        type="number"
-                                        placeholder="Type here…"
-                                        name="billingMonth"
-                                        value={formData.billingMonth}
-                                        onChange={handleInputChange}
+                                        selected={
+                                        formData.billingYear 
+                                            ? new Date(formData.billingYear, 0, 1)   // 1 Jan of that year
+                                            : null
+                                        }
+                                        onChange={handleDateChange}
+                                        placeholder="Select Year"
+                                        dateFormat="yyyy"
+                                        showYearPicker={true}
+                                        isClearable={true}
                                         style={{
-                                            border: validation.billingMonth
-                                            ? '1px solid #F1416C'
+                                            border: validation.billingYear
+                                            ? '1px solid #F1416C !important'
                                             : '1px solid #e0e0df',
                                         }}
                                     />
                                 </Form.Group>
-                                </Col>
-
-                                <Col
+                            </Col>
+                            <Col>
+                            <Row>
+                                {/* <Col
                                     md={6}
                                     className="mb-3"
                                 >
@@ -238,10 +282,10 @@ const AddBill = () => {
                                             'form-control bg-white min-h-60px fs-15 fw-500 border-radius-15px',
                                             { 'border-danger': validation.billingYear }
                                         )}
-                                        type="number"
+                                        type="year"
                                         placeholder="Type here…"
                                         name="billingYear"
-                                        value={formData.billingYear}
+                                        value={formData.billingYear ?? ""}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.billingYear
@@ -250,7 +294,7 @@ const AddBill = () => {
                                         }}
                                     />
                                 </Form.Group>
-                                </Col>
+                                </Col> */}
                                 <Col
                                     md={6}
                                     className="mb-3"
@@ -270,7 +314,7 @@ const AddBill = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="generatedUnits"
-                                        value={formData.generatedUnits}
+                                        value={formData.generatedUnits ?? ""}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.generatedUnits
@@ -300,7 +344,7 @@ const AddBill = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="consumedUnits"
-                                        value={formData.consumedUnits}
+                                        value={formData.consumedUnits ?? ""}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.consumedUnits
@@ -330,7 +374,7 @@ const AddBill = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="exportedUnits"
-                                        value={formData.exportedUnits}
+                                        value={formData.exportedUnits ?? ""}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.exportedUnits
@@ -342,6 +386,8 @@ const AddBill = () => {
                                 </Col>
                             </Row>
                             </Col>
+                            
+
                         </Row>
                         </Card.Body>
                     </Card>

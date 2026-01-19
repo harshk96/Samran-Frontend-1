@@ -8,6 +8,7 @@ import {WithChildren} from "../../_admin/helpers";
 import ManagePpaPage from "../modules/manage-ppa";
 import ManagePlantPage from "../modules/manage-plant";
 import ManageBillPage from "../modules/manage-bill";
+import ManageUsersPage from "../modules/manage-user";
 
 const PrivateRoutes = () => {
     return (
@@ -15,6 +16,7 @@ const PrivateRoutes = () => {
             <Route element={<MasterLayout />}>
                 <Route path="auth/*" element={<Navigate to="/dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="user/*" element={<ManageUsersPage/>} />
                 <Route path="plant/*" element={<ManagePlantPage />} />
                 <Route path="ppa/*" element={<ManagePpaPage />} />
                 <Route path="bill/*" element={<ManageBillPage />} />

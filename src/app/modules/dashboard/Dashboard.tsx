@@ -60,12 +60,14 @@ const Dashboard = () => {
                                     className="p-8 rounded-3 d-flex justify-content-between align-items-center flex-wrap cursor-pointer"
                                     style={{background: "#f8ead1"}}
                                     onClick={() => {
-                                        navigate("/manage-category/all-categories");
+                                        navigate("/user/all-users");
                                     }}
                                 >
                                     <div
                                         className="d-flex flex-column gap-4 flex-wrap cursor-pointer"
-                                        onClick={() => navigate("/manage-category/all-categories")}
+                                        onClick={() => {
+                                        navigate("/user/all-users");
+                                    }}
                                     >
                                         <p className="mb-0 fw-medium fs-18">Total Users</p>
                                         <h3 className="fw-600 fs-32 mb-1">{dashboardData.totalUsers}</h3>
@@ -99,7 +101,7 @@ const Dashboard = () => {
                                     className="p-8 rounded-3 d-flex justify-content-between align-items-center flex-wrap cursor-pointer"
                                     style={{background: "#d4f4dd"}}
                                     onClick={() => {
-                                        navigate("/manage-property/approvedPlants");
+                                        navigate("/plant/all-plants");
                                     }}
                                 >
                                     <div className="d-flex flex-column gap-4 flex-wrap">

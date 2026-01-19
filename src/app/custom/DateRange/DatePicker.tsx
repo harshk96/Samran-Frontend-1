@@ -17,7 +17,8 @@ const CustomDatePicker = (props: any) => {
                 selectsRange={props.selectsRange}
                 showFullMonthYearPicker={props.showFullMonthYearPicker}
                 maxDate={props.maxDate ? props.maxDate : new Date()}
-                minDate={props.minDate ? props.minDate : "2023-01-01"}
+                // minDate={props.minDate ? props.minDate : "2023-01-01"}
+                minDate={props.minDate}
                 isClearable={props.isClearable}
                 disabled={props.disabled}
                 showMonthYearPicker={props.showMonthYearPicker}

@@ -46,8 +46,6 @@ export const USERAPIJSON = {
         sortOrder,
         needCount,
         searchTerm,
-        startDate,
-        endDate,
     }: ListUserParams) => {
         return {
             pageNo: page,
@@ -57,8 +55,6 @@ export const USERAPIJSON = {
             sortOrder: sortOrder,
             needCount: needCount,
             ...(userType !== undefined && { userType }),
-            ...(startDate !== undefined && { startDate }),
-            ...(endDate !== undefined && { endDate }),
         };
     }
 }

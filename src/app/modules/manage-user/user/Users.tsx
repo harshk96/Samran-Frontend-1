@@ -15,7 +15,7 @@ import {USERAPIJSON} from "../../../../api/apiJSON/user";
 import {ListUser} from "../../../../types/response_data/user";
 import Loader from "../../../../global/loader";
 import {success} from "../../../../global/toast";
-import {PAGE_LIMIT} from "../../../../utils/constants";
+import {PAGE_LIMIT, UserTypes} from "../../../../utils/constants";
 import {useDebounce} from "../../../../utils/useDebounce";
 import Method from "../../../../utils/methods";
 import AddIcon from "../../../../_admin/assets/media/svg/add.svg";
@@ -25,7 +25,6 @@ const Users = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState<string | null>(null);
-    // const [dateRange, setDateRange] = useState([null, null]);
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
     const [startDate, endDate] = dateRange;
     const [totalRecords, setTotalRecords] = useState(0);
@@ -65,6 +64,7 @@ const Users = () => {
         };
         let apiService = new APICallService(USER.LISTUSER, USERAPIJSON.listUser(params));
         let response = await apiService.callAPI();
+        console.log(response);
         if (response) {
             // const totalRecords = response.total;
             setTotalRecords(response.total);
@@ -76,6 +76,7 @@ const Users = () => {
     const debouncedSearch = useDebounce(fetchUsers, 400);
     const handleSearch = async (value: string) => {
         value = value.trimStart();
+        console.log(value);
         //const regex = /^(\w+( \w+)*)( {0,1})$/;
         //const regex = /^(\w+( \w+)*)? ?$/;
         const regex = /^(\S+( \S+)*)? ?$/;
@@ -103,8 +104,8 @@ const Users = () => {
         fetchUsers(1, pageLimit, searchTerm, userType, update[0], update[1]);
     };
 
-    const handleSelectChange = (eventKey: string | number | undefined | null) => {
-        const newUserType = eventKey ? parseInt(eventKey as string) : undefined;
+    const handleSelectChange = (eventKey: number | undefined ) => {
+        const newUserType = eventKey ? eventKey as number : undefined;
         setUserType(newUserType);
         setPage(1);
         fetchUsers(1, pageLimit, searchTerm, newUserType, startDate, endDate);
@@ -128,6 +129,27 @@ const Users = () => {
         setPageLimit(+event.target.value);
         await fetchUsers(1, event.target.value, searchTerm, userType, startDate, endDate);
     };
+
+    const handleUserType = (eventKey: number | null) => {
+        let type: number | undefined;
+        if (eventKey === 2) type = UserTypes.Consumer;
+        else if (eventKey === 3) type = UserTypes.Investor;
+        else type = undefined;
+
+        setUserType(type);
+        // fetchUsers({ 
+        //     page: 1, 
+        //     // limit: pageLimit, 
+        //     sortKey: '_createdAt', 
+        //     sortOrder: -1, 
+        //     needCount: true, 
+        //     userType: type,
+        //     searchTerm: searchTerm
+        // });
+    };
+
+
+
 
     // handle delete user (accept nullable id from state)
     const handleDeleteUser = async (userId: string | null) => {
@@ -157,18 +179,6 @@ const Users = () => {
                                 <span className="p-1 fs-14 text-white">{totalRecords}</span>
                             </div>
                         </div>
-
-                        {/* <div className="d-flex gap-4 flex-wrap"> */}
-                        <Button
-                            variant="primary"
-                            className="fs-16 fw-bold btn-lg"
-                            onClick={() => navigate("/manage-users/add-user")}
-                        >
-                            <img src={AddIcon} alt="Add" className="me-2" width={18} height={18} />
-                            <span className="fs-14 fw-700">Add user</span>
-                            {/* <Button onClick={() => navigate("/manage-users/add-user")}>Add user</Button> */}
-                            {/* </div> */}
-                        </Button>
                     </div>
                 </Col>
                 <Col xs={12} className="mb-4">
@@ -184,7 +194,7 @@ const Users = () => {
                                     type="text"
                                     id="kt_filter_search"
                                     className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px ps-10 border border-3px border-radius-15px"
-                                    placeholder="Search by user name"
+                                    placeholder="Search by name, email"
                                     onChange={(event) => {
                                         handleSearch(event.target.value);
                                     }}
@@ -192,28 +202,8 @@ const Users = () => {
                             </div>
                         </Col>
                         <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">Filter by date</FormLabel>
-                            <CustomDatePicker
-                                className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px border border-3px border-radius-15px"
-                                onChange={handleDateFilter}
-                                selectsRange
-                                startDate={startDate}
-                                endDate={endDate}
-                                dateFormat="dd/MM/yyyy"
-                                showFullMonthYearPicker
-                                maxDate={new Date()}
-                                isClearable
-                                placeholder="Select"
-                                customInput={
-                                    <CustomDateInput inputClass="bg-white border border-3px border-radius-15px" />
-                                }
-                            />
-                        </Col>
-                        <Col sm={4} xl={3}>
                             <FormLabel className="fs-16 fw-500 text-dark">User Type</FormLabel>
-                            <Dropdown
-                                onSelect={(eventKey) => handleSelectChange(eventKey ? parseInt(eventKey) : undefined)}
-                            >
+                                <Dropdown onSelect={(eventKey) => handleUserType(eventKey ? Number(eventKey) : null)}>
                                 <Dropdown.Toggle
                                     variant="white"
                                     className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
@@ -238,7 +228,7 @@ const Users = () => {
                                             e.currentTarget.style.backgroundColor = "transparent";
                                         }}
                                     >
-                                        Supervisor
+                                        Consumer
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         eventKey="3"
@@ -253,22 +243,7 @@ const Users = () => {
                                             e.currentTarget.style.backgroundColor = "transparent";
                                         }}
                                     >
-                                        Employee
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                        eventKey="4"
-                                        className="fs-14 fw-500 text-dark"
-                                        style={{padding: "12px 16px", color: "#5e6278"}}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.color = "#1b74e4";
-                                            e.currentTarget.style.backgroundColor = "#f1faff";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.color = "#5e6278";
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                        }}
-                                    >
-                                        Sub Contractor
+                                        Investor
                                     </Dropdown.Item>
                                     <Dropdown.Divider style={{margin: "8px 0"}} />
                                     <Dropdown.Item
@@ -302,7 +277,6 @@ const Users = () => {
                                             <th className="min-w-200px text-center">Email</th>
                                             <th className="min-w-150px text-center">Phone</th>
                                             <th className="min-w-100px text-center">Role</th>
-                                            <th className="min-w-100px text-center">Payroll ID</th>
                                             <th className="min-w-150px text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -343,22 +317,14 @@ const Users = () => {
                                                                 <td
                                                                     className="fs-15 fw-500"
                                                                     onClick={() =>
-                                                                        navigate("/manage-users/view-details", {
+                                                                        navigate("/user/view-details", {
                                                                             state: user,
                                                                         })
                                                                     }
                                                                 >
                                                                     <div className="d-flex align-items-center">
-                                                                        <img
-                                                                            src={user?.image || IMAGES.DefaultImage}
-                                                                            alt={`${user?.firstName} ${user?.lastName}`}
-                                                                            className="rounded-circle"
-                                                                            width="35"
-                                                                            height="35"
-                                                                            style={{objectFit: "cover"}}
-                                                                        />
                                                                         <span className="fs-15 fw-600 ms-3">
-                                                                            {user?.firstName} {user?.lastName}
+                                                                            {user?.name}
                                                                         </span>
                                                                     </div>
                                                                 </td>
@@ -366,13 +332,10 @@ const Users = () => {
                                                                     {user?.email}
                                                                 </td>
                                                                 <td className="fs-14 fw-500 text-center">
-                                                                    {user?.countryCode} {user?.phone}
+                                                                    {user?.phoneCountry} {user?.phone}
                                                                 </td>
                                                                 <td className="fs-14 fw-500 text-center">
                                                                     {Method.getUserTypeLabel(user?.userType)}
-                                                                </td>
-                                                                <td className="fs-14 fw-500 text-center text-center">
-                                                                    {user?.sagePayrollCode}
                                                                 </td>
                                                                 <td className="text-center">
                                                                     <CustomSelectTable
@@ -394,7 +357,7 @@ const Users = () => {
                                                                                         className="btn btn-link fs-14 fw-500 text-black ms-3 p-4"
                                                                                         onClick={() =>
                                                                                             navigate(
-                                                                                                "/manage-users/view-details",
+                                                                                                "/user/view-details",
                                                                                                 {
                                                                                                     state: user,
                                                                                                 }

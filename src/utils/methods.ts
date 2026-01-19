@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { PropertyTypes, UserTypes, PlantStatus } from './constants';
+import { PropertyTypes, UserTypes, PlantStatus, Months } from './constants';
 
 const Method = {
     convertDateToFormat : (date: string, format: string) => {
@@ -73,6 +73,37 @@ const Method = {
                 return "Unknown";
         }
     },
+    getMonthLabel: (months: number) => {
+        switch (months) {
+            case Months.January:
+                return "January";
+            case Months.February:
+                return "February";
+            case Months.March:
+                return "March";
+            case Months.April:
+                return "April";
+            case Months.May:
+                return "May";
+            case Months.June:
+                return "June";
+            case Months.July:
+                return "July";
+            case Months.August:
+                return "August";
+            case Months.September:
+                return "September";
+            case Months.October:
+                return "October";
+            case Months.November:
+                return "November";
+            case Months.December:
+                return "December";
+           
+            default:
+                return "Unknown";
+        }
+    }
 }
 
 export default Method;

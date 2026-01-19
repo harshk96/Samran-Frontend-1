@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import {useLocation, useNavigate} from "react-router-dom";
 import Method from "../../../utils/methods";
 import { PlantStatus, PropertyTypes } from "../../../utils/constants";
 import PlaceholderLogo from "../../../_admin/assets/media/svg/placeholder.svg";
+import APICallService from "../../../api/apiCallService";
+import { PPA } from "../../../api/apiEndPoints";
+import { success } from "../../../global/toast";
+import { PPAAPIJSON } from "../../../api/apiJSON/ppa";
 
 const ViewPpa = () => {
     const navigate = useNavigate();
     const {state}: any = useLocation();
-    
+    const [loading, setLoading] = useState(false);
+
     const formatDate = (dateString: string): string => {
         return Method.convertDateToFormat(dateString, "DD-MM-YYYY");
     };
@@ -16,7 +21,20 @@ const ViewPpa = () => {
     const handleBack = () => {
         navigate("/ppa/all-ppa");
     };
-    console.log(state);
+
+    const handleSignPpa = async (ppaId: string | null) => {
+        if (!ppaId) {
+            return;
+        }
+        setLoading(true);
+        const apiService = new APICallService(PPA.SIGNPPA, {}, { id: ppaId })
+        const response = await apiService.callAPI();
+        if(response) {
+            success("PPA sign successfully");
+            navigate('/ppa/all-ppa')
+        }
+        setLoading(false);
+    }
     if (!state) {
         return (
             <div className="p-9 bg-light d-flex justify-content-center align-items-center" style={{minHeight: "400px"}}>
@@ -69,6 +87,14 @@ const ViewPpa = () => {
                                 <i className="bi bi-arrow-left fs-24 text-dark"></i>
                             </Button>
                             <h1 className="fs-22 fw-bolder mb-0">PPA Details</h1>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                className="fs-16 fw-bold"
+                                onClick={() => handleSignPpa(state?._id)}
+                            >
+                                Sign PPA
+                            </Button>
                         </div>
                     </div>
                 </Col>
@@ -104,6 +130,7 @@ const ViewPpa = () => {
                             <InfoCard icon="bi bi-award" label="tarrif" value={state?.tarrif || "—"} />
                             <InfoCard icon="bi bi-award" label="expected Years" value={state?.expectedYears || "—"} />
                             <InfoCard icon="bi bi-award" label="Start Date - End Date" value={(formatDate(state?.startDate) + " to " + formatDate(state?.endDate)) || "—" }/>
+                            <InfoCard icon="bi bi-award" label="Signed Status" value= {String(state?.isSigned) || '-'} />
                             {state?.isSigned == true && (
                                 <InfoCard
                                     icon="bi bi-award"

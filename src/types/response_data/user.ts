@@ -1,15 +1,12 @@
 export interface ListUser {
-    firstName: string;
-    lastName: string;
-    userType: number;
+    name: string;
     email: string;
+    userType: number;
+    phoneCountry: string;
     phone: string;
-    countryCode: string;
-    image: string;
-    approved: boolean;
+    isActive: boolean;
     _createdAt: string;
     _id: string;
-    sagePayrollCode: string;
 }
 
 export interface ListUserParams {
@@ -17,9 +14,7 @@ export interface ListUserParams {
     limit: number;
     sortKey: string;
     sortOrder: number;
-    userType?: number;
     needCount: boolean;
     searchTerm?: string;
-    startDate?: string;
-    endDate?: string;
+    userType?: number | undefined;
 }

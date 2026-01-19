@@ -15,6 +15,7 @@ import {IListBill} from "../../../types";
 import AddIcon from "../../../_admin/assets/media/svg/add.svg";
 import { CustomSelectWhite } from "../../custom/select/CustomSelectWhite";
 import { PPAAPIJSON } from "../../../api/apiJSON/ppa";
+import Method from "../../../utils/methods";
  
 const Bills = () => {
     const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Bills = () => {
             sortOrder: -1,
             needCount: true,
             searchTerm: searchTerm ? searchTerm : undefined,
+            isSigned: true
         }
         const apiService = new APICallService(PPA.LISTPPA, PPAAPIJSON.listPpa(params));
         const response = await apiService.callAPI();
@@ -76,7 +78,6 @@ const Bills = () => {
                 sortOrder: -1,
                 needCount: true,
                 searchTerm: searchTerm ? searchTerm : undefined,
-                // ppaId: ppaId ? ppaId : undefined,
             }
 
             let apiService = new APICallService(
@@ -85,7 +86,6 @@ const Bills = () => {
             );
     
             let response = await apiService.callAPI();
-            console.log("response dsd", response);
             if(response) {
                 setTotalRecords(response.total);
                 setBills(response.records);
@@ -101,12 +101,6 @@ const Bills = () => {
     const debouncedSearch = useDebounce(fetchBills, 400);
 
     const handleSearch = async (value: string) => {
-        // value = value.trimStart();
-        // const regex = /^(\S+( \S+)*)? ?$/;
-        // const isValid = regex.test(value);
-        // if (!isValid) {
-        //     return;
-        // }
         setSearchTerm(value.trimStart());
         setPage(1);
         setLoading(true);
@@ -165,7 +159,7 @@ const Bills = () => {
     ) => {
         switch (event.value) {
             case 1:
-                navigate('/bill/all-bills/view-details', { state: bill });
+                navigate('/bill/view-details', { state: bill });
                 break;
 
             case 3:
@@ -208,7 +202,7 @@ const Bills = () => {
                 </div>
                 </Col>
                 
-                <Col
+                {/* <Col
                     xs={12}
                     className="mb-4"
                 >
@@ -229,31 +223,8 @@ const Bills = () => {
                                 />
                             </div>
                         </Col>
-                        
-                        {/* <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">PPA</FormLabel>
-                            <CustomSelectWhite
-                                placeholder="Select PPA"
-                                options={[
-                                    ...userOptions,
-                                    // { value: undefined, label: "Clear Filter" }, // Acts as clear option
-                                ]}
-                                isMulti={false}
-                                onChange={(selected: any) => {
-                                    handleSelectChange(selected ? selected.value : undefined);
-                                }}
-                                value={
-                                    ppaId
-                                        ? userOptions.find((option) => option.value === ppaId) || null
-                                        : null
-                                    }
-                                    minHeight="60px"
-                                    controlFontSize="14px"
-                                    fontWeight="500"
-                                />
-                        </Col> */}
                     </Row>
-                </Col>
+                </Col> */}
                 
                 <Col>
                 <Card className="border border-r10px">
@@ -310,7 +281,9 @@ const Bills = () => {
                                                                 )
                                                             }
                                                         >
-                                                            {bill?.billingMonth}
+                                                            {Method.getMonthLabel(
+                                                                bill?.billingMonth
+                                                            ) ?? "—"}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
                                                             {bill?.billingYear}

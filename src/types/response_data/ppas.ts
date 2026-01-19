@@ -9,7 +9,6 @@ export interface IListPpaParams {
     isSigned? : boolean;
 }
 
-
 export interface IListPpa {
     _id: string,
     plantDetail: {

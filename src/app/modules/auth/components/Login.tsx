@@ -48,7 +48,6 @@ export function Login() {
             );
 
             const response = await apiService.callAPI();
-            console.log("response", response);
             if(response) {
                 saveAuth(response?.token);
                 saveCurrentUser(response?.admin);
