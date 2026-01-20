@@ -197,33 +197,78 @@ const Plants = () => {
         setShowModal(true);
     };
 
-    const handleActionSubmit = async (action: 2 | 3, reason: string) => {
-    if (!selectedPlantId) return;
+    // const handleActionSubmit = async (action: 2 | 3, reason: string, plantUniqueName: string) => {
+    //     if (!selectedPlantId) return;
 
-    setLoading(true);
+    //     setLoading(true);
 
-    const apiService = new APICallService(
-        PLANT.PLANTSTATUSUPDATE,
-        PLANTAPIJSON.ApproveRejectPlant({
-            _id: selectedPlantId,
-            plantStatus: action,
-            plantUniqueName: plantUniqueName,
-            rejectionReason: action === 3 ? reason : null
-        }),
-        { _id: selectedPlantId } // URL param
-    );
+    //     const apiService = new APICallService(
+    //         PLANT.PLANTSTATUSUPDATE,
+    //         PLANTAPIJSON.ApproveRejectPlant({
+    //             _id: selectedPlantId,
+    //             plantStatus: action,
+    //             plantUniqueName: plantUniqueName,
+    //             rejectionReason: action === 3 ? reason : null
+    //         }),
+    //         { _id: selectedPlantId } // URL param
+    //     );
 
-    const response = await apiService.callAPI();
+    //     const response = await apiService.callAPI();
+    //     console.log(" vandho?", response);
 
-    if (response) {
-        success(`Plant ${action === 2 ? "approved" : "rejected"} successfully`);
-        await fetchPlants(page, pageLimit, searchTerm, userId, plantStatus, propertyType);
-    }
+    //     if (response) {
+    //         success(`Plant ${action === 2 ? "approved" : "rejected"} successfully`);
+    //         await fetchPlants(page, pageLimit, searchTerm, userId, plantStatus, propertyType);
+    //     }
 
-    setShowModal(false);
-    setLoading(false);
-};
+    //     setShowModal(false);
+    //     setLoading(false);
+    // };
 
+    const handleActionSubmit = async (data: {
+        actionType: 2 | 3;
+        reason?: string;
+        plantName?: string;
+    }) => {
+        if (!selectedPlantId) return;
+
+        const { actionType, reason, plantName } = data;
+
+        setLoading(true);
+
+        const apiService = new APICallService(
+            PLANT.PLANTSTATUSUPDATE,
+            PLANTAPIJSON.ApproveRejectPlant({
+                _id: selectedPlantId,
+                plantStatus: actionType,
+                plantUniqueName: actionType === 2 ? plantName ?? null : null,
+                rejectionReason: actionType === 3 ? reason ?? null : null,
+            }),
+            { _id: selectedPlantId }
+        );
+
+        const response = await apiService.callAPI();
+
+        console.log("Response:", response);
+
+        if (response) {
+            success(
+                `Plant ${actionType === 2 ? "approved" : "rejected"} successfully`
+            );
+
+            await fetchPlants(
+                page,
+                pageLimit,
+                searchTerm,
+                userId,
+                plantStatus,
+                propertyType
+            );
+        }
+
+        setShowModal(false);
+        setLoading(false);
+    };
 
     const handlePlantOption = async (
         event: any,
@@ -482,6 +527,8 @@ const Plants = () => {
                                 <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
                                     <thead>
                                         <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
+                                        <th className="min-w-150px text-center">Plant Id</th>
+                                        <th className="min-w-150px text-center">Plant Name</th>
                                         <th className="min-w-150px text-center">User Name</th>
                                         <th className="min-w-160px text-center">Property Type</th>
                                         <th className="min-w-160px text-center">Property Address</th>
@@ -519,15 +566,24 @@ const Plants = () => {
                                                         <tr 
                                                             key={index} 
                                                             className=""
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    '/plant/view-details',
-                                                                    {
-                                                                        state: plant,
-                                                                    }
-                                                                )
-                                                            }
                                                         >
+                                                            <td 
+                                                                onClick={() =>
+                                                                    navigate(
+                                                                        '/plant/view-details',
+                                                                        {
+                                                                            state: plant,
+                                                                        }
+                                                                    )
+                                                                }
+                                                                className="fs-15 fw-500 text-center"
+                                                                
+                                                            >
+                                                                {plant?.plantUniqueId}
+                                                            </td>
+                                                            <td className="fs-15 fw-500 text-center">
+                                                                {plant?.plantUniqueName || '-'}
+                                                            </td>
                                                             <td className="fs-15 fw-500 text-center">
                                                                 {plant?.userDetails?.name}
                                                             </td>

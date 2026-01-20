@@ -235,7 +235,7 @@ const AddUser = () => {
         <div className="p-9">
             <Row className="mb-6">
                 <Col xs={12}>
-                    <h1 className="fs-22 fw-bolder">Add new user</h1>
+                    <h1 className="fs-22 fw-bolder">Add user</h1>
                 </Col>
             </Row>
             <Row>

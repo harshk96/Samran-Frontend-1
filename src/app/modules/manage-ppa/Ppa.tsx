@@ -331,13 +331,16 @@ const Ppa = () => {
                             <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
                                 <thead>
                                     <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
+                                    <th className="min-w-160px text-center">PPA Id</th>
+                                    <th className="min-w-160px text-center">PPA Name</th>
+                                    <th className="min-w-160px text-center">Plant Name</th>
                                     <th className="min-w-160px text-center">Property Name</th>
                                     <th className="min-w-160px text-center">Property Address</th>
                                     <th className="min-w-150px text-center">Plant Capacity</th>
                                     <th className="min-w-160px text-center">Tarrif</th>
                                     <th className="min-w-160px text-center">Signed</th>
-                                    <th className="min-w-160px text-center">Start Date</th>
-                                    <th className="min-w-160px text-center">End Date </th>
+                                    {/* <th className="min-w-160px text-center">Start Date</th>
+                                    <th className="min-w-160px text-center">End Date </th> */}
                                     <th className="min-w-150px text-center">Actions</th>
                                     </tr>
                                 </thead>
@@ -380,6 +383,21 @@ const Ppa = () => {
                                                         <td
                                                             className="fs-15 fw-500 text-center"
                                                         >
+                                                            {ppa?.ppaUniqueId}
+                                                        </td>
+                                                        <td
+                                                            className="fs-15 fw-500 text-center"
+                                                        >
+                                                            {ppa?.ppaName}
+                                                        </td>
+                                                        <td
+                                                            className="fs-15 fw-500 text-center"
+                                                        >
+                                                            {ppa?.plantDetail?.plantUniqueName}
+                                                        </td>
+                                                        <td
+                                                            className="fs-15 fw-500 text-center"
+                                                        >
                                                             {ppa?.plantDetail?.propertyName}
                                                         </td>
                                                         <td className="fs-14 fw-500 text-center">
@@ -397,12 +415,12 @@ const Ppa = () => {
                                                         <td className="fs-14 fw-500 text-center">
                                                              {String(ppa?.isSigned)}
                                                         </td>
-                                                        <td className="fs-14 fw-500 text-center">
+                                                        {/* <td className="fs-14 fw-500 text-center">
                                                             {formatDate(ppa?.startDate)}
                                                         </td> 
                                                         <td className="fs-14 fw-500 text-center">
                                                             {formatDate(ppa?.endDate)}
-                                                        </td>
+                                                        </td> */}
                                                         <td className="text-center">
                                                             <CustomSelectTable
                                                                 backgroundColor="white"

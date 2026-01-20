@@ -12,6 +12,8 @@ export interface IListPlantParams {
 
 export interface IListPlant {
     _id: string,
+    plantUniqueId: string,
+    plantUniqueName: string,
     userDetails: {
         userId: string,
         userType: number,

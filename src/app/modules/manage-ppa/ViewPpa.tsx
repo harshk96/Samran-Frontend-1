@@ -113,6 +113,21 @@ const ViewPpa = () => {
                         <Card.Body className="p-6">
                             <InfoCard
                                 icon="bi bi-person"
+                                label="PPA Id"
+                                value={state?.ppaUniqueId}
+                            />
+                            <InfoCard
+                                icon="bi bi-person"
+                                label="PPA Name"
+                                value={state?.ppaName}
+                            />
+                            <InfoCard
+                                icon="bi bi-person"
+                                label="Plant Name"
+                                value={state?.plantDetail?.plantUniqueName}
+                            /> 
+                            <InfoCard
+                                icon="bi bi-person"
                                 label="Property Name"
                                 value={state?.plantDetail?.propertyName}
                             />
@@ -140,15 +155,7 @@ const ViewPpa = () => {
                                     }
                                 />
                             )}
-                            {state?.isSigned == false && (
-                                <InfoCard
-                                    icon="bi bi-award"
-                                    label="Sign Info"
-                                    value={
-                                        formatDate(state?.isSigned) || "—"
-                                    }
-                                />
-                            )}
+                            {state?.isSigned == false }
                         </Card.Body>
                     </Card>
                 </Col>

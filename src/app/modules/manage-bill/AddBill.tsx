@@ -159,7 +159,7 @@ const AddBill = () => {
             <Row className="mb-6">
                 <Col xs={12}>
                     <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
-                        <h1 className="fs-22 fw-bolder">Add new Bill</h1>
+                        <h1 className="fs-22 fw-bolder">Add Bill</h1>
                     </div>
                 </Col>
             </Row>

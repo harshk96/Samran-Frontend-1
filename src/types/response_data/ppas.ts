@@ -11,8 +11,12 @@ export interface IListPpaParams {
 
 export interface IListPpa {
     _id: string,
+    ppaUniqueId: string,
+    ppaName: string,
     plantDetail: {
         plantId: string,
+        plantUniqueId: string,
+        plantUniqueName: string,
         propertyName: string,
         propertyType: string,
         address: string,

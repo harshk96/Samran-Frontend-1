@@ -201,7 +201,7 @@ const AddPpa = () => {
             <Row className="mb-6">
                 <Col xs={12}>
                     <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
-                        <h1 className="fs-22 fw-bolder">Add new PPA</h1>
+                        <h1 className="fs-22 fw-bolder">Add PPA</h1>
                     </div>
                 </Col>
             </Row>
@@ -263,7 +263,7 @@ const AddPpa = () => {
                                             type="number"
                                             placeholder="Type here…"
                                             name="plantCapacity"
-                                            value={formData.plantCapacity}
+                                            value={formData.plantCapacity ?? ''}
                                             onChange={handleInputChange}
                                             style={{
                                                 border: validation.plantCapacity
@@ -292,7 +292,7 @@ const AddPpa = () => {
                                             type="number"
                                             placeholder="Type here…"
                                             name="tarrif"
-                                            value={formData.tarrif}
+                                            value={formData.tarrif ?? ''}
                                             onChange={handleInputChange}
                                             style={{
                                                 border: validation.tarrif
@@ -321,7 +321,7 @@ const AddPpa = () => {
                                             type="number"
                                             placeholder="Type here…"
                                             name="expectedYears"
-                                            value={formData.expectedYears}
+                                            value={formData.expectedYears ?? ''}
                                             onChange={handleInputChange}
                                             style={{
                                                 border: validation.expectedYears

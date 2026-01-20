@@ -232,7 +232,7 @@ const AddPlant = () => {
             <Row className="mb-6">
                 <Col xs={12}>
                     <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
-                        <h1 className="fs-22 fw-bolder">Add new Plant</h1>
+                        <h1 className="fs-22 fw-bolder">Add Plant</h1>
                     </div>
                 </Col>
             </Row>
@@ -428,7 +428,7 @@ const AddPlant = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="pincode"
-                                        value={formData.pincode}
+                                        value={formData.pincode ?? ''}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.pincode
@@ -458,7 +458,7 @@ const AddPlant = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="roofArea"
-                                        value={formData.roofArea}
+                                        value={formData.roofArea ?? ''}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.roofArea
@@ -488,7 +488,7 @@ const AddPlant = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="billAmount"
-                                        value={formData.billAmount}
+                                        value={formData.billAmount ?? ''}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.billAmount
@@ -518,7 +518,7 @@ const AddPlant = () => {
                                         type="number"
                                         placeholder="Type here…"
                                         name="electricityRate"
-                                        value={formData.electricityRate}
+                                        value={formData.electricityRate ?? ''}
                                         onChange={handleInputChange}
                                         style={{
                                             border: validation.electricityRate
