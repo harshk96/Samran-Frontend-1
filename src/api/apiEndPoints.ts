@@ -16,6 +16,7 @@ export const PLANT = {
     LISTPLANT : 'admin/plant/list' + ' ' + constants.GET_URL_PARAMS,
     PLANTINFO : 'admin/plant/info' + ' ' + constants.PATCH_FORM_ID,
     PLANTSTATUSUPDATE : 'admin/plant/status/update' + ' ' + constants.PATCH_ID,
+    DOWNLOADREPORT: 'admin/plant/report/download' + ' ' + constants.GET_URL_PARAMS,
 }
 
 export const PPA = {
@@ -29,6 +30,10 @@ export const Bill = {
     ADDBILL : 'admin/bill/generate' + ' ' + constants.POST_RAW,
     LISTBILL : 'admin/bill/list' + ' ' + constants.GET_URL_PARAMS,
     BILLINFO : 'admin/bill/info' + ' ' + constants.PATCH_FORM_ID,
+}
+
+export const PAYMENT = {
+    UPDATECASHPAYMENT : 'admin/update/cash-payment' + ' ' + constants.PATCH_ID
 }
 
 export const DASHBOARD = {

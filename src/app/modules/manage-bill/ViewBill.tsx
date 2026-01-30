@@ -105,6 +105,43 @@ const ViewBill = () => {
 
                 {/* PPA Plant Information Card */}
                 <Col md={7}>
+                    <Card className="border bg-white shadow-sm mb-2">
+                        <Card.Header className="bg-light border-bottom-0 pt-6">
+                            <h5 className="fs-18 fw-bold text-dark mb-0 pb-0">
+                                <i className="bi bi-clock-history me-3 text-primary"></i>
+                                Payment History
+                            </h5>
+                        </Card.Header>
+                        <Card.Body className="pt-4 pb-0">
+                            <div className="timeline timeline-3">
+                                <div className="timeline-item d-flex align-items-start mb-0">
+                                    <div className="timeline-icon symbol symbol-circle symbol-40px me-5">
+                                        <div className="symbol-label bg-light-primary">
+                                        <i className="bi bi-upload text-primary fs-4"></i>
+                                        </div>
+                                    </div>
+                                <div className="timeline-content">
+                                    {state?.isPaid ? (
+                                        <>
+                                            <p className="fw-bold fs-16 mb-0">Paid</p>
+                                            <p className="text-muted fs-14 mb-0">
+                                                {Method.convertDateToFormat(
+                                                    state?.paymentDate,
+                                                    'dddd, DD MMMM YYYY [at] hh:mm A'
+                                                )}
+                                            </p>
+                                            <p className="text-muted fs-14 mb-0">
+                                                By { Method.getUserPaymentMethodLabel(state?.userPaymentMethod) }
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <p className="fw-bold text-danger fs-16">Unpaid</p>
+                                    )}
+                                </div>
+                                </div>
+                            </div>
+                        </Card.Body>
+                    </Card>
                     <Card className="border bg-white shadow-sm h-30 mb-5">
                         <Card.Header className="bg-light border-bottom-0 pb-0">
                             <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">

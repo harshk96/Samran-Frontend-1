@@ -93,4 +93,12 @@ export const Months = (function Months() {
     Months.December = 12;
     
     return Months;
-})()
+})();
+
+export const UserPaymentMethod = (function (){
+    function UserPaymentMethod() {};
+    UserPaymentMethod.Cash = 1;
+    UserPaymentMethod.Online = 2;
+
+    return UserPaymentMethod;
+})();

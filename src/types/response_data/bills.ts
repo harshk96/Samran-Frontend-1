@@ -6,6 +6,12 @@ export interface IListBillParams {
     needCount: boolean;
     searchTerm?: string;
     ppaId?: string;
+    userId?: string;
+    plantId?: string;
+    billingMonth?: number;
+    billingYear?: number;
+    userPaymentMethod?: number;
+    isPaid?: boolean;
 }
 
 export interface IListBill {
@@ -27,6 +33,7 @@ export interface IListBill {
     consumedUnits: number,
     exportedUnits: number,
     totalAmount: number,
+    userPaymentMethod: number,
     isPaid: boolean,
     paymentRefId: string,
     paymentDate: string,

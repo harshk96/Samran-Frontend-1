@@ -9,6 +9,7 @@ import ManagePpaPage from "../modules/manage-ppa";
 import ManagePlantPage from "../modules/manage-plant";
 import ManageBillPage from "../modules/manage-bill";
 import ManageUsersPage from "../modules/manage-user";
+import ManageReportsPage from "../modules/reports";
 
 const PrivateRoutes = () => {
     return (
@@ -20,6 +21,7 @@ const PrivateRoutes = () => {
                 <Route path="plant/*" element={<ManagePlantPage />} />
                 <Route path="ppa/*" element={<ManagePpaPage />} />
                 <Route path="bill/*" element={<ManageBillPage />} />
+                {/* <Route path="report/*" element={<ManageReportsPage />} /> */}
     
                 <Route path="*" element={<Navigate to="/error/404" />} />
             </Route>

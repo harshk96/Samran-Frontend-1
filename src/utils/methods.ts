@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { PropertyTypes, UserTypes, PlantStatus, Months } from './constants';
+import { PropertyTypes, UserTypes, PlantStatus, Months, UserPaymentMethod } from './constants';
 
 const Method = {
     convertDateToFormat : (date: string, format: string) => {
@@ -102,6 +102,14 @@ const Method = {
            
             default:
                 return "Unknown";
+        }
+    },
+    getUserPaymentMethodLabel: (userPaymentMethod : number) => {
+        switch(userPaymentMethod) {
+            case UserPaymentMethod.Online : 
+                return 'Online Payment';
+            case UserPaymentMethod.Cash : 
+                return 'Cash Payment'
         }
     }
 }
