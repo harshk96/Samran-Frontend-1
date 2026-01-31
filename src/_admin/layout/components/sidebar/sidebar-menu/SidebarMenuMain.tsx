@@ -22,7 +22,7 @@ const SidebarMenuMain = () => {
             <SidebarMenuItem to="/plant/all-plants" icon={JobIcon} title="Plants" />
             <SidebarMenuItem to="/ppa/all-ppa" icon={DashboardIcon} title="PPA" />
             <SidebarMenuItem to="/bill/all-bills" icon={LeaveIcon} title="Bill" />
-            <SidebarMenuItem to="/reports" icon={LeaveIcon} title="Reports" />
+            <SidebarMenuItem to="/report/reports" icon={LeaveIcon} title="Reports" />
         </>
     );
 };

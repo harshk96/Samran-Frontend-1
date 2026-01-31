@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
                 <Route path="plant/*" element={<ManagePlantPage />} />
                 <Route path="ppa/*" element={<ManagePpaPage />} />
                 <Route path="bill/*" element={<ManageBillPage />} />
-                {/* <Route path="report/*" element={<ManageReportsPage />} /> */}
+                <Route path="report/*" element={<ManageReportsPage />} />
     
                 <Route path="*" element={<Navigate to="/error/404" />} />
             </Route>

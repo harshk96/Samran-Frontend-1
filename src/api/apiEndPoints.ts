@@ -30,6 +30,7 @@ export const Bill = {
     ADDBILL : 'admin/bill/generate' + ' ' + constants.POST_RAW,
     LISTBILL : 'admin/bill/list' + ' ' + constants.GET_URL_PARAMS,
     BILLINFO : 'admin/bill/info' + ' ' + constants.PATCH_FORM_ID,
+    DOWNLOADREPORT: 'admin/bill/report/download' + ' ' + constants.GET_URL_PARAMS,
 }
 
 export const PAYMENT = {

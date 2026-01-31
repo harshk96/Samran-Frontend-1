@@ -25,7 +25,7 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
         try {
             setLoading(true);
-            const apiService = new APICallService(DASHBOARD.GET_DASHBOARD_DATA);
+            const apiService = new APICallService(DASHBOARD.GET_DASHBOARD_DATA, {});
             const response = await apiService.callAPI();
             if (response) {
                 setDashboardData({
