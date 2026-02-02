@@ -1,11 +1,11 @@
-import BeatLoader from "react-spinners/BeatLoader";
+import BeatLoader from "react-spinners/PulseLoader";
 
 const Loader = (props: any) => {
     return (
         <BeatLoader
-            color={'#010380ff'}
+            color={"#4466c4"}
             loading={props.loading}
-            size={20}
+            size={12}
             aria-label="Loading Spinner"
             data-testid="loader"
         />

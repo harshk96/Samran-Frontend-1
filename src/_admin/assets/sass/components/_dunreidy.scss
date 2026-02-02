@@ -18,6 +18,7 @@
 #kt_app_header_container {
     padding-left: 30px !important;
     padding-right: 30px !important;
+    color:#4b5678
 }
 // Fonts
 .fs-14 {
@@ -506,11 +507,11 @@
     box-shadow: none;
 }
 .app-wrapper {
-    background-color: #ffff;
+    background-color: #eff1f5;
 }
 // SideMenu Custom CSS
 .app-sidebar-menu {
-    background-color: #131313 !important;
+    background-color: #ffffff !important;
 }
 [data-kt-app-layout="dark-sidebar"] .app-sidebar .menu .menu-item .menu-link.active .menu-title,
 [data-kt-app-layout="dark-sidebar"] .app-sidebar .menu .menu-item.here > .menu-link .menu-title,

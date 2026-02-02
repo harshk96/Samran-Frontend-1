@@ -20,7 +20,7 @@ const Reports: React.FC = () => {
         {
             id: 'plant-report' as ReportType,
             title: 'Plant Report',
-            description: 'Download Plant reports on added plants by User. Filter by user or plant status.',
+            description: 'Download detailed plant reports of added plants, with filtering options by User and Plant Status.',
             icon: 'bi-file-earmark-bar-graph',
             color: '#1B74E4',
             bgColor: '#E8F2FE',
@@ -28,7 +28,7 @@ const Reports: React.FC = () => {
         {
             id: 'bill-report' as ReportType,
             title: 'Bill Report',
-            description: 'Download Bill reports. Filter by PPA or plant status.',
+            description: 'Download detailed bill reports with flexible filters including PPA, User, Billing Month, Payment Method, and Payment Status.',
             icon: 'bi-file-earmark-bar-graph',
             color: '#1B74E4',
             bgColor: '#E8F2FE',

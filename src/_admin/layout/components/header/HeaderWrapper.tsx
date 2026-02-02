@@ -22,7 +22,7 @@ export function HeaderWrapper() {
         <div
             id='kt_app_header'
             className='app-header'
-            style={{background: 'white', borderBottom: '1px solid #e0e0df'}}
+            style={{background: '#eff1f5', borderBottom: '1px solid #e0e0df'}}
             // data-kt-sticky='true'
             // data-kt-sticky-activate='{default: true, lg: true}'
             // data-kt-sticky-name='app-header-minimize'

@@ -47,7 +47,7 @@ body {
   height: 100px;
   border-radius: 50%;
   border-top: 2px solid 
-  #01807b;
+  #1e3368;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   animation: rt 2s infinite linear;
@@ -63,7 +63,7 @@ body {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  border-top: 2px solid #80bfbc;
+  border-top: 2px solid #5a70ac;
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   animation: rt 4s infinite linear reverse;
@@ -83,7 +83,7 @@ body {
   border-left: initial;
   border-right: initial;
   animation: cw 1s infinite;
-  background: #01807b;
+  background: #1e3368;
 }
 .splash-h1 {
   position: absolute;

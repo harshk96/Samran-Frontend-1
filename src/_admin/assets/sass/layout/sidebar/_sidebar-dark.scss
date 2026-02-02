@@ -36,17 +36,17 @@
                 }
 
                 @include menu-link-default-state( 
-                    $title-color: $gray-700-dark, 
-                    $icon-color:  $gray-400-dark, 
-                    $bullet-color:$gray-400-dark,  
-                    $arrow-color: $gray-400-dark,  
+                    $title-color: $gray-300-dark, 
+                    $icon-color:  $gray-300-dark, 
+                    $bullet-color:$gray-300-dark,  
+                    $arrow-color: $gray-300-dark,  
                     $bg-color: null,
                     $all-links: true 
                 );
                 
                 @include menu-link-here-state( 
                     $title-color: $gray-900-dark,
-                    $icon-color: $gray-900-dark, 
+                    $icon-color: $gray-300-dark, 
                     $bullet-color: $gray-900-dark,
                     $arrow-color: $gray-900-dark, 
                     $bg-color: null,
@@ -63,7 +63,7 @@
                 );
                 
                 @include menu-link-hover-state( 
-                    $title-color: $gray-900-dark,
+                    $title-color: $gray-500-dark,
                     $icon-color: $gray-900-dark, 
                     $bullet-color: $gray-900-dark,
                     $arrow-color: $gray-900-dark,
@@ -72,7 +72,7 @@
                 );
                 
                 @include menu-link-active-state( 
-                    $title-color: $gray-900-dark,
+                    $title-color: $gray-700-dark,
                     $icon-color: $gray-900-dark, 
                     $bullet-color: $gray-900-dark,
                     $arrow-color: $gray-900-dark,

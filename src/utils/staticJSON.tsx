@@ -1,4 +1,4 @@
-import AdminLogo from "../_admin/assets/media/svg/dunreidy-logo.svg";
+import AdminLogo from "../_admin/assets/media/svg/make-my-money-logo.svg";
 import DefaultImage from "../_admin/assets/media/default-user.png";
 
 export const userTypeOptions = [
