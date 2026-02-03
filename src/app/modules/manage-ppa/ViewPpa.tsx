@@ -71,52 +71,67 @@ const ViewPpa = () => {
             </div>
         </div>
     );
+
+    const InfoRow = ({ icon, label, value }: { icon: string; label: string; value: string | React.ReactNode }) => (
+        <div className="d-flex align-items-center py-3 border-bottom">
+        <i className={`${icon} text-primary me-4`} style={{ fontSize: '20px', minWidth: '30px' }}></i>
+        <div className="flex-grow-1">
+            <p className="fs-14 text-muted mb-1">{label}</p>
+            <p className="fs-16 fw-600 text-gray-700 mb-0">{value || '—'}</p>
+        </div>
+        </div>
+    );
     
     return (
         <div className="p-9 bg-light">
             <Row className="mb-6">
                 <Col xs={12}>
-                    <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 ">
-                        <div className="d-flex align-items-center gap-3">
-                            <Button
-                                variant="light"
-                                className="p-0"
-                                onClick={handleBack}
-                                style={{border: "none", background: "transparent"}}
-                            >
-                                <i className="bi bi-arrow-left fs-24 text-dark"></i>
-                            </Button>
-                            <h1 className="fs-22 fw-bolder mb-0">PPA Details</h1>
+                    <div className="d-flex align-items-center mb-4 w-100">
+
+                    {/* LEFT */}
+                    <div className="d-flex align-items-center gap-3">
+                        <Button
+                            variant="light"
+                            className="p-0"
+                            onClick={handleBack}
+                            style={{ border: "none", background: "transparent" }}
+                        >
+                            <i className="bi bi-arrow-left fs-24 text-dark"></i>
+                        </Button>
+
+                        <h1 className="fs-22 fw-bolder mb-0" style={{ color: '#1e3369' }}>PPA Details</h1>
+                    </div>
+                        {state?.isSigned === false && (
                             <Button
                                 variant="primary"
                                 size="sm"
-                                className="fs-16 fw-bold"
+                                className="fs-16 fw-bold ms-auto"
                                 onClick={() => handleSignPpa(state?._id)}
                             >
                                 Sign PPA
                             </Button>
-                        </div>
+                        )}
                     </div>
                 </Col>
             </Row>
 
             <Row className="g-6">
                 {/* PPA Information Card */}
-                <Col md={5}>
-                    <Card className="border bg-white shadow-sm h-20">
+                <Col lg={5}>
+                    <Card className="border bg-white shadow-sm h-100">
                         <Card.Header className="bg-light border-bottom-0 pb-0">
-                            <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">
+                            <p className="fs-18 fw-bold mb-0 d-flex align-items-center" style={{ color: '#2d4484' }}>
                                 <i className="bi bi-info-circle me-2 text-primary"></i>
-                                    PPA Information
-                            </h5>
+                                    Plant Information
+                            </p>
                         </Card.Header>
                         <Card.Body className="p-6">
-                            <InfoCard icon="bi bi-person" label="PPA Id" value={state?.ppaUniqueId}/>
-                            <InfoCard icon="bi bi-person" label="PPA Name" value={state?.ppaName}/>
-                            <InfoCard icon="bi bi-person" label="Plant Capacity" value={state?.plantCapacity}/>
-                            <InfoCard icon="bi bi-award" label="tarrif" value={state?.tarrif || "—"} />
-                            <InfoCard icon="bi bi-award" label="expected Years" value={state?.expectedYears || "—"} />
-                            <InfoCard icon="bi bi-award" label="Start Date - End Date" value={(formatDate(state?.startDate) + " to " + formatDate(state?.endDate)) || "—" }/>
+                            <InfoRow icon="bi bi-tag" label="PPA's Unique Id" value={state?.ppaUniqueId} />
+                            <InfoRow icon="bi bi-app-indicator" label="PPA's Name" value={state?.ppaName} />
+                            <InfoRow icon="fa-solid fa-solar-panel" label="Plant's Capacity" value={state?.plantCapacity} />
+                            <InfoRow icon="bi bi-currency-rupee" label="Tarrif" value={state?.tarrif || '-'} />
+                            <InfoRow icon="bi bi-calendar" label="Expected Years" value={state?.expectedYears || "—"} />
+                            <InfoRow icon="bi bi-calendar-date" label="Start Date - End Date" value={(formatDate(state?.startDate) + " to " + formatDate(state?.endDate)) || "—" } />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -124,8 +139,8 @@ const ViewPpa = () => {
                     {/* Activity History */}
                     <Card className="border bg-white shadow-sm mb-2">
                         <Card.Header className="bg-light border-bottom-0 pt-6">
-                            <h5 className="fs-18 fw-bold text-dark mb-0 pb-0">
-                                <i className="bi bi-clock-history me-3 text-primary"></i>
+                            <h5 className="fs-18 fw-bold mb-0 pb-0" style={{ color: '#2d4484' }}>
+                                <i className="fa-solid fa-signature me-3 text-primary"></i>
                                 Signing History
                             </h5>
                         </Card.Header>
@@ -134,14 +149,16 @@ const ViewPpa = () => {
                                 {/* Submission */}
                                 <div className="timeline-item d-flex align-items-start mb-0">
                                     <div className="timeline-icon symbol symbol-circle symbol-40px me-5">
-                                        <div className="symbol-label bg-light-primary">
-                                        <i className="bi bi-upload text-primary fs-4"></i>
-                                        </div>
+                                        {state?.isSigned === true ?
+                                            <i className="bi bi-check-circle-fill" style={{ fontSize: '30px', color: '#57d757' }}></i>
+                                           :
+                                            <i className="bi bi-x-circle-fill" style={{ fontSize: '30px', color: '#e76e78' }}></i>
+                                        }
                                     </div>
                                 <div className="timeline-content">
                                     {state?.isSigned ? (
                                         <>
-                                            <p className="fw-bold fs-16 mb-0">Signed</p>
+                                            <p className="fw-bold fs-16 mb-0" style={{ color: '#2d4484' }}>Signed</p>
                                             <p className="text-muted fs-14 mb-0">
                                                 {Method.convertDateToFormat(
                                                     state?.signedAt,
@@ -160,7 +177,7 @@ const ViewPpa = () => {
 
                     <Card className="border bg-white shadow-sm">
                         <Card.Header className="bg-light border-bottom-0 pt-5">
-                            <h5 className="fs-18 fw-bold text-dark mb-0">
+                            <h5 className="fs-18 fw-bold mb-0" style={{ color: '#1e3369' }}>
                                 Documents
                             </h5>
                         </Card.Header>
@@ -176,7 +193,7 @@ const ViewPpa = () => {
                                                         className="bi bi-file-pdf"
                                                         style={{fontSize: "20px", color: "#1b74e4", marginRight: "12px"}}
                                                     ></i>
-                                                    <h6 className="fs-16 fw-600 text-dark mb-0">PPA File</h6>
+                                                    <h6 className="fs-16 fw-600 mb-0" style={{ color: '#1e3369' }}>PPA File</h6>
                                                 </div>
                                                 <div style={{marginLeft: "32px"}}>
                                                     <a
@@ -198,10 +215,10 @@ const ViewPpa = () => {
                                             <div className="bg-light rounded p-4 mb-4" style={{border: "1px solid #e4e6ef"}}>
                                                 <div className="d-flex align-items-center mb-3">
                                                     <i
-                                                        className="bi bi-file-pdf"
+                                                        className="bi bi-filetype-pdf"
                                                         style={{fontSize: "20px", color: "#1b74e4", marginRight: "12px"}}
                                                     ></i>
-                                                    <h6 className="fs-16 fw-600 text-dark mb-0">Lease Document File</h6>
+                                                    <h6 className="fs-16 fw-600 mb-0" style={{ color: '#1e3369' }}>Lease Document File</h6>
                                                 </div>
                                                 <div style={{marginLeft: "32px"}}>
                                                     <a
@@ -225,28 +242,24 @@ const ViewPpa = () => {
 
                     <Card className="border bg-white shadow-sm h-20">
                         <Card.Header className="bg-light border-bottom-0 pb-0">
-                            <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">
+                            <h5 className="fs-18 fw-bold mb-0 d-flex align-items-center" style={{ color: '#2d4484' }}>
                                 <i className="bi bi-info-circle me-2 text-primary"></i>
                                     Plant Information
                             </h5>
                         </Card.Header>
                         <Card.Body className="p-3">
-                            <InfoCard
-                                icon="bi bi-person"
+                            <InfoRow
+                                icon="bi bi-app-indicator"
                                 label="Plant Name"
                                 value={state?.plantDetail?.plantUniqueName}
                             /> 
-                            <InfoCard
-                                icon="bi bi-person"
+                            <InfoRow
+                                icon="bi bi-house"
                                 label="Property Name"
                                 value={state?.plantDetail?.propertyName}
                             />
                         </Card.Body>
                     </Card>
-
-                    
-
-                    
                 </Col>
 
                 

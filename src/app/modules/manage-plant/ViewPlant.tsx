@@ -46,7 +46,7 @@ const ViewPlant = () => {
         value: string | React.ReactNode;
         className?: string;
     }) => (
-        <div className={`bg-light rounded p-4 mb-4 ${className}`} style={{border: "1px solid #e4e6ef"}}>
+        <div className={`rounded p-4 mb-4 ${className}`} style={{border: "1px solid #e4e6ef", background: "#eff1f5"}}>
             <div className="d-flex align-items-center mb-2">
                 <i className={icon} style={{fontSize: "20px", color: "#1b74e4", marginRight: "12px"}}></i>
                 <h6 className="fs-14 fw-600 text-muted mb-0">{label}</h6>
@@ -62,13 +62,12 @@ const ViewPlant = () => {
         <i className={`${icon} text-primary me-4`} style={{ fontSize: '20px', minWidth: '30px' }}></i>
         <div className="flex-grow-1">
             <p className="fs-14 text-muted mb-1">{label}</p>
-            <p className="fs-16 fw-600 text-dark mb-0">{value || '—'}</p>
+            <p className="fs-16 fw-600 text-gray-700 mb-0">{value || '—'}</p>
         </div>
         </div>
     );
 
     const getStatusBadge = (status: number) => {
-        console.log("status",status);
         switch (status) {
             case 1: return { variant: 'warning', label: 'Submitted' };
             case 2: return { variant: 'success', label: 'Approved' };
@@ -93,7 +92,7 @@ const ViewPlant = () => {
                             >
                                 <i className="bi bi-arrow-left fs-24 text-dark"></i>
                             </Button>
-                            <h1 className="fs-22 fw-bolder mb-0">Plant Details</h1>
+                            <p className="fs-22 fw-bolder mb-0" style={{ color: '#1e3369' }}>Plant Details</p>
                         </div>
                     </div>
                 </Col>
@@ -104,24 +103,24 @@ const ViewPlant = () => {
                 <Col lg={5}>
                     <Card className="border bg-white shadow-sm h-100">
                         <Card.Header className="bg-light border-bottom-0 pb-0">
-                            <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">
+                            <p className="fs-18 fw-bold mb-0 d-flex align-items-center" style={{ color: '#2d4484' }}>
                                 <i className="bi bi-info-circle me-2 text-primary"></i>
                                     Plant Information
-                            </h5>
+                            </p>
                         </Card.Header>
                         <Card.Body className="p-6">
-                            <InfoRow icon="bi bi-briefcase" label="Plant's Unique Id" value={state?.plantUniqueId} />
-                            <InfoRow icon="bi bi-briefcase" label="Plant's Unique Name" value={state?.plantUniqueName} />
-                            <InfoRow icon="bi bi-briefcase" label="Property Name" value={state?.propertyAddress?.propertyName} />
-                            <InfoRow icon="bi bi-briefcase" label="Property Type" value={state?.propertyAddress?.propertyType} />
-                            <InfoRow icon="bi bi-briefcase" label="Property Address" value={state.propertyAddress?.address} />
-                            <InfoRow icon="bi bi-briefcase" label="Property Pincode" value={state.propertyAddress?.pincode} />
-                            <InfoRow icon="bi bi-briefcase" label="Property City" value={state.propertyAddress?.city} />
-                            <InfoRow icon="bi bi-briefcase" label="Property State" value={state.propertyAddress?.state} />
-                            <InfoRow icon="bi bi-briefcase" label="RoofArea" value={state.propertyAddress?.roofArea} />
-                            <InfoRow icon="bi bi-briefcase" label="Electricity Rate" value={state.propertyAddress?.electricityRate} />
+                            <InfoRow icon="bi bi-tag" label="Plant's Unique Id" value={state?.plantUniqueId} />
+                            <InfoRow icon="bi bi-app-indicator" label="Plant's Unique Name" value={state?.plantUniqueName} />
+                            <InfoRow icon="bi bi-house" label="Property Name" value={state?.propertyAddress?.propertyName} />
+                            <InfoRow icon="bi bi-braces" label="Property Type" value={state?.propertyAddress?.propertyType} />
+                            <InfoRow icon="bi bi-geo-alt" label="Property Address" value={state.propertyAddress?.address} />
+                            <InfoRow icon="bi bi-upc" label="Property Pincode" value={state.propertyAddress?.pincode} />
+                            <InfoRow icon="fa-solid fa-city" label="Property City" value={state.propertyAddress?.city} />
+                            <InfoRow icon="fa-light fa-flag-usa" label="Property State" value={state.propertyAddress?.state} />
+                            <InfoRow icon="bi bi-textarea" label="RoofArea" value={state.propertyAddress?.roofArea} />
+                            <InfoRow icon="fa-solid fa-bolt" label="Electricity Rate" value={state.propertyAddress?.electricityRate} />
                             <InfoRow
-                                icon="bi bi-calendar-event"
+                                icon="bi bi-check-circle"
                                 label="Submitted On"
                                 value={Method.convertDateToFormat(state.submittedAt, 'dddd, DD MMMM YYYY')}
                             />
@@ -134,14 +133,14 @@ const ViewPlant = () => {
                     {/* Bill Amount */}
                     <Card className="border bg-white shadow-sm mb-6">
                         <Card.Header className="bg-light border-bottom-0 pt-5">
-                        <h5 className="fs-18 fw-bold text-dark mb-0">
-                            <i className="bi bi-chat-square-text me-3 text-primary"></i>
+                        <p className="fs-18 fw-bold mb-0" style={{ color: '#2d4484' }}>
+                            {/* <i className="bi bi-chat-square-text me-3 text-primary"></i> */}
                             Bill Amount
-                        </h5>
+                        </p>
                         </Card.Header>
                         <Card.Body className="pt-4 pb-5">
-                        <p className="fs-16 text-dark mb-0">
-                            {state?.propertyAddress?.billAmount}
+                        <p className="fs-16 mb-0" style={{ color: '#2d4484' }}>
+                            {state?.propertyAddress?.billAmount}  <i className="bi bi-currency-rupee"></i>
                         </p>
                         </Card.Body>
                     </Card>
@@ -149,10 +148,10 @@ const ViewPlant = () => {
                     {/* Receipt */}
                     <Card className="border bg-white shadow-sm mb-6">
                         <Card.Header className="bg-light border-bottom-0 pt-5">
-                        <h5 className="fs-18 fw-bold text-dark mb-0">
-                            <i className="bi bi-file-earmark-image me-3 text-primary"></i>
+                        <p className="fs-18 fw-bold mb-0" style={{ color: '#2d4484' }}>
+                            <i className="bi bi-receipt me-3 text-primary"></i>
                             Bill / Proof
-                        </h5>
+                        </p>
                         </Card.Header>
                         <Card.Body className="pt-5 pb-6 text-center">
                         {state?.propertyAddress?.billImage ? (
@@ -181,7 +180,7 @@ const ViewPlant = () => {
                     {/* Activity History */}
                     <Card className="border bg-white shadow-sm">
                         <Card.Header className="bg-light border-bottom-0 pt-5">
-                        <h5 className="fs-18 fw-bold text-dark mb-0">
+                        <h5 className="fs-18 fw-bold mb-0" style={{ color: '#2d4484' }}>
                             <i className="bi bi-clock-history me-3 text-primary"></i>
                             Activity History
                         </h5>
@@ -196,7 +195,7 @@ const ViewPlant = () => {
                                 </div>
                             </div>
                             <div className="timeline-content">
-                                <p className="fw-bold fs-16 mb-1">Plant Submitted</p>
+                                <p className="fw-bold fs-16 mb-1" style={{ color: '#2d4484' }}>Plant Submitted</p>
                                 <p className="text-muted fs-14">
                                 By {state?.userDetails?.name} 
                                 <br />

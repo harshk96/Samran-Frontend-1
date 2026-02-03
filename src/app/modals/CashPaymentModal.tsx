@@ -27,17 +27,16 @@ const CashPaymentModal = (props: any) => {
                 </span>
                 </div>
             </Modal.Body>
-            <div className="d-flex justify-content-center gap-5 mb-8">
+            <div className="d-flex justify-content-center align-item-center gap-5 mb-8">
                 <button
                     onClick={props.onHide}
-                    className="btn fw-bolder bg-gray-200"
+                    className="btn fw-bolder text-white" style={{ background: '#c04646' }}
                 >
                     Cancel
                 </button>
                 <Button
-                    style={{ background: '#8077b4' }}
+                    style={{ background: '#4673c0', color: '#fff'}}
                     variant="blue"
-                    size="lg"
                     onClick={handleConfirm}
                 >
                     Yes confirm & Update Cash Payment

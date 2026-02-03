@@ -57,6 +57,16 @@ const ViewUser = () => {
         </div>
     );
 
+    const InfoRow = ({ icon, label, value }: { icon: string; label: string; value: string | React.ReactNode }) => (
+        <div className="d-flex align-items-center py-3 border-bottom">
+        <i className={`${icon} text-primary me-4`} style={{ fontSize: '20px', minWidth: '30px' }}></i>
+        <div className="flex-grow-1">
+            <p className="fs-14 text-muted mb-1">{label}</p>
+            <p className="fs-16 fw-600 text-gray-700 mb-0">{value || '—'}</p>
+        </div>
+        </div>
+    );
+
     return (
         <div className="p-9 bg-light">
             {loading ? (
@@ -65,7 +75,7 @@ const ViewUser = () => {
                 </div>
             ) : (
                 <>
-                    <Row className="mb-6">
+                    <Row className="mb-0">
                         <Col xs={12}>
                             <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
                                 <div className="d-flex align-items-center gap-3">
@@ -77,7 +87,7 @@ const ViewUser = () => {
                                     >
                                         <i className="bi bi-arrow-left fs-24 text-dark"></i>
                                     </Button>
-                                    <h1 className="fs-22 fw-bolder mb-0">Employee Details</h1>
+                                    <h1 className="fs-22 fw-bolder mb-0" style={{ color: '#1e3369' }}>User Details</h1>
                                 </div>
                             </div>
                         </Col>
@@ -87,63 +97,17 @@ const ViewUser = () => {
                         <Tab.Content>
                             {/* Overview Tab */}
                             <Tab.Pane eventKey="overview">
-                                <Row className="g-6 mt-4">
-                                    {/* <Col md={4}>
-                                        <Card className="border bg-white shadow-sm h-100">
-                                            <Card.Header className="bg-light border-bottom-0 pb-0">
-                                                <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">
-                                                    <i className="bi bi-person-circle me-2 text-primary"></i>
-                                                    Profile Picture
-                                                </h5>
-                                            </Card.Header>
-                                            <Card.Body className="p-6">
-                                                <div className="d-flex justify-content-center align-items-center">
-                                                    <div
-                                                        className="border rounded p-4 bg-light"
-                                                        style={{
-                                                            width: "100%",
-                                                            maxWidth: "300px",
-                                                            minHeight: "300px",
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
-                                                        }}
-                                                    >
-                                                        {state.image ? (
-                                                            <img
-                                                                src={state.image}
-                                                                className="img-fluid rounded"
-                                                                alt="Profile"
-                                                                style={{
-                                                                    maxWidth: "100%",
-                                                                    maxHeight: "300px",
-                                                                    objectFit: "contain",
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <img
-                                                                src={PlaceholderLogo}
-                                                                className="img-fluid"
-                                                                alt="Placeholder"
-                                                                style={{maxWidth: "200px", maxHeight: "200px"}}
-                                                            />
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col> */}
-
+                                <Row className="g-1 mt-1">
                                     <Col md={8}>
                                         <Card className="border bg-white shadow-sm h-100">
                                             <Card.Header className="bg-light border-bottom-0 pb-0">
-                                                <h5 className="fs-18 fw-bold text-dark mb-0 d-flex align-items-center">
+                                                <h5 className="fs-18 fw-bold mb-0 d-flex align-items-center" style={{ color: '#1e3369' }}>
                                                     <i className="bi bi-info-circle me-2 text-primary"></i>
-                                                    Employee Information
+                                                    User Information
                                                 </h5>
                                             </Card.Header>
                                             <Card.Body className="p-6">
-                                                <InfoCard
+                                                <InfoRow
                                                     icon="bi bi-person"
                                                     label="Full Name"
                                                     value={
@@ -151,7 +115,7 @@ const ViewUser = () => {
                                                         "—"
                                                     }
                                                 />
-                                                <InfoCard
+                                                <InfoRow
                                                     icon="bi bi-telephone"
                                                     label="Phone Number"
                                                     value={
@@ -164,12 +128,12 @@ const ViewUser = () => {
                                                             : "—"
                                                     }
                                                 />
-                                                <InfoCard
+                                                <InfoRow
                                                     icon="bi bi-envelope"
                                                     label="Email"
                                                     value={state?.email || "—"}
                                                 />
-                                                <InfoCard
+                                                <InfoRow
                                                     icon="bi bi-person-badge"
                                                     label="User Type"
                                                     value={
