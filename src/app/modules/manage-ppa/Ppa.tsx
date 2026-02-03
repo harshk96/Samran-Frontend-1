@@ -206,7 +206,7 @@ const Ppa = () => {
                 >
                 <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
                     <div className="d-flex align-items-center">
-                        <h1 className="fs-22 mt-2 fw-bolder">PPA</h1>
+                        <h1 className="fs-22 mt-2 fw-bolder pb-0">PPA</h1>
                         <div className="badge badge-primary ms-3 rounded-pill">
                             <span className="p-1 fs-14 text-white">{totalRecords}</span>
                         </div>
@@ -220,8 +220,8 @@ const Ppa = () => {
                             src={AddIcon}
                             alt="Add"
                             className="me-2"
-                            width={18}
-                            height={18}
+                            width={10}
+                            height={10}
                         />
                         <span className="fs-14 fw-700">Add PPA</span>
                     </Button>
@@ -235,7 +235,7 @@ const Ppa = () => {
                     <Row className="align-items-end g-5">
                         
                         <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">Plant</FormLabel>
+                            <FormLabel className="fs-14 fw-300 text-grey">Plant</FormLabel>
                             <CustomSelectWhite
                                 placeholder="Select Plant"
                                 options={[
@@ -251,9 +251,9 @@ const Ppa = () => {
                                     ? plantOptions.find((option) => option.value === plantId) || null
                                     : null
                                 }
-                                minHeight="60px"
+                                minHeight="20px"
                                 controlFontSize="14px"
-                                fontWeight="500"
+                                fontWeight="200"
                             />
                         </Col>
 
@@ -261,11 +261,11 @@ const Ppa = () => {
                             sm={4}
                             xl={3}
                         >
-                            <FormLabel className="fs-16 fw-500 text-dark">Status</FormLabel>
+                            <FormLabel className="fs-14 fw-300 text-grey">Status</FormLabel>
                             <Dropdown onSelect={(eventKey) => handleStatusChange(eventKey)}>
                                 <Dropdown.Toggle
                                     variant="white"
-                                    className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                                    className="form-control bg-white min-h-20px fs-14 min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
                                     id="dropdown-status"
                                 >
                                     Sign Status
@@ -328,12 +328,12 @@ const Ppa = () => {
                 </Col>
                 
                 <Col>
-                <Card className="border border-r10px">
-                    <Card.Body className="p-0">
+                {/* <Card className="border border-r10px mt-4">
+                    <Card.Body className="p-0"> */}
                         <div className="table-responsive">
-                            <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
-                                <thead>
-                                    <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
+                            <table className="table table-rounded table-row-bordered align-middle gs-7 gy-2.5">
+                                <thead className="bg-header-table">
+                                    <tr className="fw-bold fs-14 fw-600 border-bottom h-60px align-middle">
                                     <th className="min-w-160px text-center">PPA Id</th>
                                     <th className="min-w-160px text-center">PPA Name</th>
                                     <th className="min-w-160px text-center">Plant Name</th>
@@ -475,8 +475,8 @@ const Ppa = () => {
                                 </tbody>
                             </table>
                         </div>
-                    </Card.Body>
-                </Card>
+                    {/* </Card.Body>
+                </Card> */}
                 </Col>
                 {totalRecords > 0 && !loading ? (
                     <Pagination

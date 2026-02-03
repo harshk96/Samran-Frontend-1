@@ -309,7 +309,7 @@ const Bills = () => {
                                 <input
                                     type="text"
                                     id="kt_filter_search"
-                                    className="form-control form-control-white min-h-60px form-control-lg ps-10"
+                                    className="form-control form-control-white min-h-20px form-control-lg ps-10"
                                     placeholder="Search by PPA Id and name"
                                     value={searchTerm}
                                     onChange={(event) => handleSearch(event.target.value)}
@@ -319,7 +319,7 @@ const Bills = () => {
                     </Row>
                 </Col>
                 <Col sm={4} xl={3}>
-                    <FormLabel className="fs-16 fw-500 text-dark">PPA</FormLabel>
+                    <FormLabel className="fs-14 fw-300 text-grey">PPA</FormLabel>
                     <CustomSelectWhite
                         placeholder="Select PPA"
                         options={[
@@ -333,13 +333,13 @@ const Bills = () => {
                                 ? ppaOptions.find((option) => option.value === ppaId) || null
                                 : null
                         }
-                        minHeight="60px"
+                        minHeight="20px"
                         controlFontSize="14px"
-                        fontWeight="500"
+                        fontWeight="200"
                     />
                 </Col>
                 <Col sm={4} xl={3}>
-                        <FormLabel className="fs-16 fw-500 text-dark">
+                        <FormLabel className="fs-14 fw-300 text-grey">
                             Billing Month
                         </FormLabel>
                         <Dropdown
@@ -349,7 +349,7 @@ const Bills = () => {
                         >
                                 <Dropdown.Toggle
                                     variant="white"
-                                    className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                                    className="form-control bg-white min-h-20px fs-14 min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
                                     id="dropdown-user-type"
                                 >
                                     {billingMonth
@@ -563,11 +563,11 @@ const Bills = () => {
                     sm={4}
                     xl={3}
                 >
-                    <FormLabel className="fs-16 fw-500 text-dark">Payment Satatus</FormLabel>
+                    <FormLabel className="fs-14 fw-300 text-grey">Payment Satatus</FormLabel>
                     <Dropdown onSelect={(eventKey) => handleStatusChange(eventKey)}>
                         <Dropdown.Toggle
                             variant="white"
-                            className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                            className="form-control bg-white min-h-20px fs-14 min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
                             id="dropdown-status"
                         >
                             Payment Status
@@ -629,11 +629,11 @@ const Bills = () => {
                     sm={4}
                     xl={3}
                 >
-                    <FormLabel className="fs-16 fw-500 text-dark">Payment Method</FormLabel>
+                    <FormLabel className="fs-14 fw-300 text-grey">Payment Method</FormLabel>
                     <Dropdown onSelect={(eventKey) => handleUserPaymentMethodChange(eventKey)}>
                         <Dropdown.Toggle
                             variant="white"
-                            className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                            className="form-control bg-white min-h-20px fs-14 min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
                             id="dropdown-status"
                         >
                             Payment Method
@@ -693,12 +693,12 @@ const Bills = () => {
                 </Col>
                         
                 <Col>
-                <Card className="border border-r10px mt-3">
-                    <Card.Body className="p-0">
+                {/* <Card className="border border-r20px mt-4">
+                    <Card.Body className="p-0"> */}
                         <div className="table-responsive">
-                            <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
-                                <thead>
-                                    <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
+                            <table className="table table-rounded table-row-bordered align-middle gs-7 gy-2.5 pt-4">
+                                <thead className="bg-header-table">
+                                    <tr className="fw-bold fs-14 fw-600 border-bottom h-60px align-middle">
                                     <th className="min-w-150px text-center">Plant's Name</th>
                                     <th className="min-w-150px text-center">PPA Name</th>
                                     <th className="min-w-150px text-center">PPA UniqueId</th>
@@ -831,8 +831,8 @@ const Bills = () => {
                                 </tbody>
                             </table>
                         </div>
-                    </Card.Body>
-                </Card>
+                    {/* </Card.Body>
+                </Card> */}
                 </Col>
                 {totalRecords > 0 && !loading ? (
                         <Pagination

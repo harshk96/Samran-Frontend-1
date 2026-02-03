@@ -145,10 +145,10 @@ const Users = () => {
                     </div>
                 </Col>
                 <Col xs={12} className="mb-4">
-                    <Row className="align-items-end g-5">
+                    <Row className="align-items-end g-5 mb-3">
                         <Col sm={4} xl={3}>
                             <FormLabel className="fs-16 fw-500 text-dark">Search</FormLabel>
-                            <div className="position-relative d-flex align-items-center">
+                            <div className="position-relative flex-grow-1 d-flex align-items-center w-sm-300px w-md-200px w-lg-230px">
                                 <KTSVG
                                     path="/media/icons/duotune/general/gen021.svg"
                                     className="svg-icon-3 position-absolute ms-3"
@@ -156,7 +156,7 @@ const Users = () => {
                                 <input
                                     type="text"
                                     id="kt_filter_search"
-                                    className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px ps-10 border border-3px border-radius-15px"
+                                    className="form-control form-control-white min-h-20px form-control-lg ps-10"
                                     placeholder="Search by name, email"
                                     value={searchTerm}
                                     onChange={(event) => {
@@ -166,7 +166,7 @@ const Users = () => {
                             </div>
                         </Col>
                         <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">
+                            <FormLabel className="fs-14 fw-300 text-grey">
                                 UserType
                             </FormLabel>
                             <Dropdown
@@ -176,7 +176,7 @@ const Users = () => {
                             >
                                 <Dropdown.Toggle
                                     variant="white"
-                                    className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                                    className="form-control bg-white min-h-20px fs-14 min-w-md-28px min-w-175px text-10px border border-3px border-radius-15px"
                                     id="dropdown-user-type"
                                 >
                                     {userType
@@ -239,12 +239,12 @@ const Users = () => {
                     </Row>
                 </Col>
                 <Col>
-                    <Card className="border border-r10px">
-                        <Card.Body className="p-0">
+                    {/* <Card className="border border-r20px">
+                        <Card.Body className="p-0"> */}
                             <div className="table-responsive">
-                                <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
-                                    <thead>
-                                        <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
+                                <table className="table table-rounded table-row-bordered align-middle gs-7 gy-2.5">
+                                    <thead className="bg-header-table">
+                                        <tr className="fw-bold fs-14 fw-600 border-bottom h-50px align-middle">
                                             <th className="min-w-150px text-center">Name</th>
                                             <th className="min-w-200px text-center">Email</th>
                                             <th className="min-w-150px text-center">Phone</th>
@@ -387,8 +387,8 @@ const Users = () => {
                                     </tbody>
                                 </table>
                             </div>
-                        </Card.Body>
-                    </Card>
+                        {/* </Card.Body>
+                    </Card> */}
                 </Col>
                 {totalRecords > 0 && !loading ? (
                     <Pagination

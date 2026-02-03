@@ -509,6 +509,10 @@
 .app-wrapper {
     background-color: #eff1f5;
 }
+
+.bg-header-table {
+    background-color: #cedff7;
+}
 // SideMenu Custom CSS
 .app-sidebar-menu {
     background-color: #ffffff !important;
@@ -774,7 +778,7 @@
 }
 @media (min-width: 992px) {
     .btn-lg {
-        height: 50px;
+        height: 40px;
         display: inline-flex;
         justify-content: center;
         align-items: center;

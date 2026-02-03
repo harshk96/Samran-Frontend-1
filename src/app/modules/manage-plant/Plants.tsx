@@ -215,9 +215,6 @@ const Plants = () => {
         );
 
         const response = await apiService.callAPI();
-
-        console.log("Response:", response);
-
         if (response) {
             success(
                 `Plant ${actionType === 2 ? "approved" : "rejected"} successfully`
@@ -263,7 +260,7 @@ const Plants = () => {
                 <Col xs={12} className="mb-4">
                     <div className="d-flex flex-wrap justify-content-between align-items-center mb-4">
                         <div className="d-flex align-items-center">
-                            <h1 className="fs-22 mt-2 fw-bolder">Plants</h1>
+                            <h1 className="fs-22 mt-2 pb-0 fw-bolder">Plants</h1>
                             <div className="badge badge-primary ms-3 rounded-pill">
                                 <span className="p-1 fs-14 text-white">{totalRecords}</span>
                             </div>
@@ -284,7 +281,6 @@ const Plants = () => {
                         </Button>
                     </div>
                 </Col>
-                
                 <Col xs={12} className="mb-4">
                     <Row className="align-items-end g-5">
                         <Col>
@@ -296,16 +292,19 @@ const Plants = () => {
                                 <input
                                     type="text"
                                     id="kt_filter_search"
-                                    className="form-control form-control-white min-h-60px form-control-lg ps-10"
+                                    className="form-control form-control-white min-h-20px form-control-lg ps-10"
                                     placeholder="Search by Address, city, state"
                                     value={searchTerm}
                                     onChange={(event) => handleSearch(event.target.value)}
                                 />
                             </div>
                         </Col>
-                        
+                    </Row>
+                </Col>
+                <Col xs={12} className="mb-4">
+                    <Row className="align-items-end g-5">
                         <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">
+                            <FormLabel className="fs-14 fw-300 text-grey">
                                 Property Type
                             </FormLabel>
                             <Dropdown
@@ -315,7 +314,7 @@ const Plants = () => {
                             >
                                 <Dropdown.Toggle
                                     variant="white"
-                                    className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                                    className="form-control bg-white min-h-20px fs-14 min-w-md-28px min-w-175px text-10px border border-3px border-radius-15px"
                                     id="dropdown-user-type"
                                 >
                                     {propertyType
@@ -376,7 +375,7 @@ const Plants = () => {
                             </Dropdown>
                         </Col>
                         <Col sm={4} xl={3}>
-                            <FormLabel className="fs-16 fw-500 text-dark">
+                            <FormLabel className="fs-14 fw-300 text-grey">
                                 Plant Status
                             </FormLabel>
                             <Dropdown
@@ -386,7 +385,7 @@ const Plants = () => {
                             >
                                 <Dropdown.Toggle
                                     variant="white"
-                                    className="form-control bg-white min-h-60px fs-14 fw-bold text-dark min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
+                                    className="form-control bg-white min-h-20px fs-14 min-w-md-288px min-w-175px text-start border border-3px border-radius-15px"
                                     id="dropdown-user-type"
                                 >
                                     {plantStatus
@@ -461,39 +460,38 @@ const Plants = () => {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Col>
+                        <Col sm={4} xl={3}>
+                            <FormLabel className="fs-14 fw-300 text-grey">User</FormLabel>
+                            <CustomSelectWhite
+                                placeholder="Select User"
+                                options={[
+                                    ...userOptions,
+                                    { value: undefined, label: "Clear Filter" }, // Acts as clear option
+                                ]}
+                                isMulti={false}
+                                onChange={(selected: any) => {
+                                    handleSelectChange(selected ? selected.value : undefined);
+                                }}
+                                value={
+                                    userId
+                                        ? userOptions.find((option) => option.value === userId) || null
+                                        : null
+                                    }
+                                minHeight="20px"
+                                controlFontSize="14px"
+                                fontWeight="200"
+                            />
+                        </Col>
                     </Row>
                 </Col>
 
-                <Col sm={4} xl={3}>
-                    <FormLabel className="fs-16 fw-500 text-dark">User</FormLabel>
-                    <CustomSelectWhite
-                        placeholder="Select User"
-                        options={[
-                            ...userOptions,
-                            { value: undefined, label: "Clear Filter" }, // Acts as clear option
-                        ]}
-                        isMulti={false}
-                        onChange={(selected: any) => {
-                            handleSelectChange(selected ? selected.value : undefined);
-                        }}
-                        value={
-                            userId
-                                ? userOptions.find((option) => option.value === userId) || null
-                                : null
-                            }
-                        minHeight="60px"
-                        controlFontSize="14px"
-                        fontWeight="500"
-                    />
-                </Col>
-                
                 <Col>
-                    <Card className="border border-r10px mt-4">
-                        <Card.Body className="p-0">
+                    {/* <Card className="border border-r20px mt-4">
+                        <Card.Body className="p-0"> */}
                             <div className="table-responsive">
-                                <table className="table table-rounded table-row-bordered align-middle gs-7 gy-4">
-                                    <thead>
-                                        <tr className="fw-bold fs-14 fw-600 text-dark border-bottom h-70px align-middle">
+                                <table className="table table-rounded table-row-bordered align-middle gs-7 gy-2.5">
+                                    <thead className="bg-header-table">
+                                        <tr className="fw-bold fs-14 fw-600 border-bottom h-60px align-middle">
                                         <th className="min-w-150px text-center">Plant Id</th>
                                         <th className="min-w-150px text-center">Plant Name</th>
                                         <th className="min-w-150px text-center">User Name</th>
@@ -510,7 +508,7 @@ const Plants = () => {
                                         {loading ? (
                                             <tr>
                                                 <td colSpan={4}>
-                                                <div className="w-100 d-flex justify-content-center text-center">
+                                                <div className="w-100 d-flex justify-content-center text-center ">
                                                     <Loader loading={loading} />
                                                 </div>
                                                 </td>
@@ -548,7 +546,7 @@ const Plants = () => {
                                                             >
                                                                 {plant?.plantUniqueId}
                                                             </td>
-                                                            <td className="fs-15 fw-500 text-center">
+                                                            <td className="fs-15  fw-500 text-center">
                                                                 {plant?.plantUniqueName || '-'}
                                                             </td>
                                                             <td className="fs-15 fw-500 text-center">
@@ -669,8 +667,8 @@ const Plants = () => {
                                     </tbody>
                                 </table>
                             </div>
-                        </Card.Body>
-                    </Card>
+                        {/* </Card.Body>
+                    </Card> */}
                 </Col>
                 {totalRecords > 0 && !loading ? (
                     <Pagination
