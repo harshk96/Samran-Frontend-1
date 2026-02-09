@@ -41,10 +41,10 @@ export function Login() {
             try {
                 const response = await apiService.callAPI();
                 if (response) {
-                    saveAuth(response?.token);
+                    saveAuth({ token: response?.token });
                     const userData = response?.user || response?.admin;
                     saveCurrentUser(userData);
-                    
+
                     // Redirect based on user type
                     if (userData?.userType === 1) { // Admin
                         navigate('/dashboard');
@@ -66,7 +66,7 @@ export function Login() {
                 saveAuth(undefined);
                 saveCurrentUser(undefined);
             }
-            
+
             setLoading(false);
             setSubmitting(false);
         }
