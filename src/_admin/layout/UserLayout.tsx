@@ -112,6 +112,16 @@ const UserLayout: React.FC<WithChildren> = ({ children }) => {
                 </Link>
               );
             })}
+
+            <button
+              onClick={handleLogout}
+              className="list-group-item list-group-item-action py-3 px-4 border-0 d-flex align-items-center mb-1 mx-2 rounded-lg transition-all text-danger hover:bg-red-50"
+            >
+              <div className="w-8 flex justify-center text-danger">
+                <i className="fas fa-sign-out-alt"></i>
+              </div>
+              <span className="ms-2">Logout</span>
+            </button>
           </div>
 
           {/* Sidebar Footer/Promo */}

@@ -91,6 +91,7 @@ export function UserLogin() {
             id="kt_login_signin_form"
         >
             <div className="d-flex flex-column gap-4">
+                <h1 className="text-[#0b1f33] fw-black mb-3 display-6 tracking-tight">Sign In</h1>
                 <div className="d-flex justify-content-center align-items-center">
                     <img
                         src={toAbsoluteUrl("media/svg/authLogo.svg")}
@@ -195,13 +196,13 @@ export function UserLogin() {
                 </Link>
             </div>
             <div className="d-grid mb-10">
-                <Button
+                <button
                     type="submit"
                     id="kt_sign_in_submit"
-                    className="btn btn-primary"
-                    disabled={formik.isSubmitting || !formik.isValid}
+                    className="btn w-100 py-4 fs-4 fw-bold mb-5 shadow-lg bg-[#052F2B] text-white hover:bg-[#0b1f33] transition-all rounded-xl"
+                    disabled={formik.isSubmitting}
                 >
-                    {!loading && <span className="indicator-label">Login</span>}
+                    {!loading && <span className="indicator-label">Sign In</span>}
                     {loading && (
                         <span
                             className="indicator-progress"
@@ -211,7 +212,7 @@ export function UserLogin() {
                             <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                         </span>
                     )}
-                </Button>
+                </button>
             </div>
             <div className="text-center text-muted fw-bold fs-6">
                 Don't have an account?{' '}

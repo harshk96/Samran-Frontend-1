@@ -3,6 +3,7 @@ import { Card, Table, Button, Badge, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../auth/core/Auth';
+import Method from "../../../../utils/methods";
 
 const ConsumerWallet: React.FC = () => {
     const { currentUser } = useAuth();
@@ -11,6 +12,7 @@ const ConsumerWallet: React.FC = () => {
     const [showDepositModal, setShowDepositModal] = useState(false);
     const [depositAmount, setDepositAmount] = useState('');
     const [paymentRef, setPaymentRef] = useState('');
+    const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -30,7 +32,6 @@ const ConsumerWallet: React.FC = () => {
             }
         } catch (error) {
             // Silently fail - will show empty state
-            // Don't show error toast, just show empty state
         }
     };
 
@@ -42,11 +43,16 @@ const ConsumerWallet: React.FC = () => {
 
         setLoading(true);
         try {
-            await axios.post('/user/wallet/deposit', { amount: depositAmount, bankReferenceId: paymentRef });
+            await axios.post('/user/wallet/deposit', {
+                amount: depositAmount,
+                bankReferenceId: paymentRef,
+                description: description || "Wallet Deposit"
+            });
             toast.success("Deposit request submitted successfully! Admin will verify.");
             setShowDepositModal(false);
             setDepositAmount('');
             setPaymentRef('');
+            setDescription('');
             fetchWalletData();
         } catch (error) {
             toast.error("Failed to submit deposit request");
@@ -172,7 +178,7 @@ const ConsumerWallet: React.FC = () => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-sm font-bold text-gray-600">
-                                        {new Date(tx.createdAt).toLocaleDateString()}
+                                        {Method.convertDateToDDMMYYYY(tx._createdAt || tx.createdAt)}
                                     </td>
                                     <td className="px-6 py-4">
                                         {getStatusBadge(tx.transactionStatus)}
@@ -206,7 +212,7 @@ const ConsumerWallet: React.FC = () => {
                                 className="font-bold text-lg p-3 rounded-xl border-gray-200 focus:border-[#43EBA6] focus:ring-[#43EBA6]"
                             />
                         </Form.Group>
-                        <Form.Group className="mb-6">
+                        <Form.Group className="mb-4">
                             <Form.Label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Reference ID (Wait for Admin Approval)</Form.Label>
                             <Form.Control
                                 type="text"
@@ -215,8 +221,20 @@ const ConsumerWallet: React.FC = () => {
                                 onChange={(e) => setPaymentRef(e.target.value)}
                                 className="p-3 rounded-xl border-gray-200"
                             />
+                        </Form.Group>
+
+                        <Form.Group className="mb-6">
+                            <Form.Label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Description / Note (Optional)</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={2}
+                                placeholder="E.g. Monthly bill payment funds"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="p-3 rounded-xl border-gray-200"
+                            />
                             <Form.Text className="text-muted text-xs mt-2">
-                                * Please transfer to our bank account and enter the reference ID here. Funds will be credited after admin verification.
+                                * Please transfer to our bank account and enter details. Funds will be credited after admin verification.
                             </Form.Text>
                         </Form.Group>
 
